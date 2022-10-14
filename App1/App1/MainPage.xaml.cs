@@ -14,31 +14,18 @@ namespace App1
         public List<ListViewItem> AllSubjects { get; set; }
 
         private Dictionary<int, KeyValuePair<TimeSpan, TimeSpan>> timeRangeByOrder = new Dictionary<int, KeyValuePair<TimeSpan, TimeSpan>>();
+        private TimeTable table;
 
         public MainPage()
         {
             InitializeComponent();
 
             CreateTimeRanges();
+            table = new TimeTable();
+            table.Download();
 
             AllSubjects = new List<ListViewItem>();
-            int subjectsCount = 6;
-
-            for (int i = 1; i <= subjectsCount; i++)
-            {
-                AllSubjects.Add(new Subject()
-                {
-                    StartTime = timeRangeByOrder[i].Key,
-                    EndTime = timeRangeByOrder[i].Value,
-                    Order = i
-                });
-
-                if (i != subjectsCount)
-                {
-                    AllSubjects.Add(GetBreak(i, i + 1));
-                }
-            }
-
+            Display(Week.Top, Day.Wednesday);
 
             BindingContext = this;
 
@@ -58,12 +45,34 @@ namespace App1
 
         private void CreateTimeRanges()
         {
-            timeRangeByOrder.Add(1, new KeyValuePair<TimeSpan, TimeSpan>(new TimeSpan(9, 30, 00), new TimeSpan(10, 30, 00)));
+            timeRangeByOrder.Add(1, new KeyValuePair<TimeSpan, TimeSpan>(new TimeSpan(9, 30, 00), new TimeSpan(11, 00, 00)));
             timeRangeByOrder.Add(2, new KeyValuePair<TimeSpan, TimeSpan>(new TimeSpan(11, 10, 00), new TimeSpan(12, 40, 00)));
             timeRangeByOrder.Add(3, new KeyValuePair<TimeSpan, TimeSpan>(new TimeSpan(13, 00, 00), new TimeSpan(14, 30, 00)));
             timeRangeByOrder.Add(4, new KeyValuePair<TimeSpan, TimeSpan>(new TimeSpan(15, 00, 00), new TimeSpan(16, 30, 00)));
             timeRangeByOrder.Add(5, new KeyValuePair<TimeSpan, TimeSpan>(new TimeSpan(16, 40, 00), new TimeSpan(18, 10, 00)));
             timeRangeByOrder.Add(6, new KeyValuePair<TimeSpan, TimeSpan>(new TimeSpan(18, 30, 00), new TimeSpan(20, 00, 00)));
+        }
+        private void Display(Week week, Day day)
+        {
+            var records = table.GetRecords(week, day).ToArray();
+
+            for (int i = 0; i < records.Length; i++)
+            {
+                TimeTableRecord record = records[i];
+
+                AllSubjects.Add(new SubjectItem()
+                {
+                    StartTime = timeRangeByOrder[record.Order].Key,
+                    EndTime = timeRangeByOrder[record.Order].Value,
+                    Order = record.Order,
+                    Record = record
+                });
+
+                if (i < records.Length - 1)
+                {
+                    AllSubjects.Add(GetBreak(record.Order, records[i + 1].Order));
+                }
+            }
         }
         private Break GetBreak(int before, int after)
         {

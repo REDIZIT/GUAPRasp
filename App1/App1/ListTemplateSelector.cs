@@ -9,7 +9,7 @@ namespace App1
 
         protected override DataTemplate OnSelectTemplate(object item, BindableObject container)
         {
-            return ((ListViewItem)item) is Subject ? SubjectTemplate : BreakTemplate;
+            return ((ListViewItem)item) is SubjectItem ? SubjectTemplate : BreakTemplate;
         }
     }
 }

@@ -11,17 +11,17 @@
                         <Frame CornerRadius="14" BackgroundColor="#232323" Padding="0">
                             <StackLayout Spacing="0">
                                 <StackLayout Orientation="Horizontal">
-                                    <StackLayout Padding="18, 12, 8, 12">
+                                    <StackLayout Padding="18, 12, 8, 12" MinimumWidthRequest="40">
                                         <Label Text="{Binding StartTime, StringFormat='{0:hh\\:mm}'}" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" VerticalOptions="FillAndExpand"/>
                                         <Label Text="{Binding Order}" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" VerticalOptions="FillAndExpand"/>
                                         <Label Text="{Binding EndTime, StringFormat='{0:hh\\:mm}'}" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" VerticalOptions="FillAndExpand"/>
                                     </StackLayout>
                                     <BoxView BackgroundColor="#5a5a5a" WidthRequest="1"/>
                                     <StackLayout Padding="8, 12, 18, 12">
-                                        <Label TextColor="Violet" Text="{Binding Name}"></Label>
-                                        <Label TextColor="White" FontSize="Medium" FontAttributes="Bold">Физика</Label>
-                                        <Label TextColor="White">Гаст. 31-02 3 группы</Label>
-                                        <Label TextColor="White">Первушина М.О.</Label>
+                                        <Label TextColor="Violet" Text="{Binding Record.Subject.Type}"></Label>
+                                        <Label TextColor="White" Text="{Binding Record.Subject.Name}" FontSize="Medium" FontAttributes="Bold"/>
+                                        <Label TextColor="White" Text="{Binding Record.Subject.Groups}"/>
+                                        <Label TextColor="White" Text="{Binding Record.Subject.Teachers}"/>
                                     </StackLayout>
                                 </StackLayout>
                                 <Label IsVisible="{Binding IsEnding}" Text="{Binding TimeUntilEnd, StringFormat='До конца {0:hh\\:mm\\:ss}'}" BackgroundColor="SeaGreen" TextColor="White" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center" VerticalOptions="FillAndExpand" HeightRequest="32" VerticalTextAlignment="Center"></Label>
