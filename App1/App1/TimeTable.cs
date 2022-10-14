@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 
 namespace App1
@@ -52,7 +53,7 @@ namespace App1
                         Type = item.Type,
                         Name = item.Disc,
                         Groups = item.GroupsText,
-                        Teachers = item.PrepsText
+                        Teachers = string.Join("; ", item.PrepsText.Split(';').Select(s => s.Split('—')[0]))
                     }
                 };
             }
