@@ -45,6 +45,7 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
+
     <StackLayout BackgroundColor="#111">
         <ListView x:Name="phonesList" HasUnevenRows="True" ItemsSource="{Binding AllSubjects}" 
                   ItemTapped="OnItemTapped" Margin="12" SelectionMode="None" SeparatorColor="Transparent" 
