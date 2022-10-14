@@ -11,7 +11,7 @@ namespace App1
         {
             InitializeComponent();
 
-            MainPage = new MainPage();
+            MainPage = new FlyoutPage1();
         }
 
         protected override void OnStart()
