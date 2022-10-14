@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:app1="clr-namespace:App1"
+             x:Class="App1.MainPage">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <DataTemplate x:Key="subjectTemplate">
+                <ViewCell>
+                    <StackLayout Padding="0, 6">
+                        <Frame CornerRadius="14" BackgroundColor="#232323" Padding="0">
+                            <StackLayout Spacing="0">
+                                <StackLayout Orientation="Horizontal">
+                                    <StackLayout Padding="18, 12, 8, 12">
+                                        <Label Text="{Binding StartTime, StringFormat='{0:hh\\:mm}'}" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" VerticalOptions="FillAndExpand"/>
+                                        <Label Text="{Binding Order}" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" VerticalOptions="FillAndExpand"/>
+                                        <Label Text="{Binding EndTime, StringFormat='{0:hh\\:mm}'}" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" VerticalOptions="FillAndExpand"/>
+                                    </StackLayout>
+                                    <BoxView BackgroundColor="#5a5a5a" WidthRequest="1"/>
+                                    <StackLayout Padding="8, 12, 18, 12">
+                                        <Label TextColor="Violet" Text="{Binding Name}"></Label>
+                                        <Label TextColor="White" FontSize="Medium" FontAttributes="Bold">Физика</Label>
+                                        <Label TextColor="White">Гаст. 31-02 3 группы</Label>
+                                        <Label TextColor="White">Первушина М.О.</Label>
+                                    </StackLayout>
+                                </StackLayout>
+                                <Label IsVisible="{Binding IsEnding}" Text="{Binding TimeUntilEnd, StringFormat='До конца {0:hh\\:mm\\:ss}'}" BackgroundColor="SeaGreen" TextColor="White" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center" VerticalOptions="FillAndExpand" HeightRequest="32" VerticalTextAlignment="Center"></Label>
+                            </StackLayout>
+                        </Frame>
+                    </StackLayout>
+                </ViewCell>
+            </DataTemplate>
+            <DataTemplate x:Key="breakTemplate">
+                <ViewCell>
+                    <StackLayout Padding="0, 6">
+                        <Frame CornerRadius="14" BackgroundColor="{Binding BackgroundColor}" Padding="0">
+                            <Label Text="{Binding Text}" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" HeightRequest="42"/>
+                        </Frame>
+                    </StackLayout>
+                </ViewCell>
+            </DataTemplate>
+            <app1:ListTemplateSelector x:Key="listTemplateSelector"
+                SubjectTemplate="{StaticResource subjectTemplate}"
+                BreakTemplate="{StaticResource breakTemplate}" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <StackLayout BackgroundColor="#111">
+        <ListView x:Name="phonesList" HasUnevenRows="True" ItemsSource="{Binding AllSubjects}" 
+                  ItemTapped="OnItemTapped" Margin="12" SelectionMode="None" SeparatorColor="Transparent" 
+                  ItemTemplate="{StaticResource listTemplateSelector}" VerticalScrollBarVisibility="Never">
+        </ListView>
+    </StackLayout>
+</ContentPage>
