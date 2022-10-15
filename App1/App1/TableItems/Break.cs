@@ -12,16 +12,20 @@ namespace App1
         public TimeSpan EndTime { get; set; }
         public bool IsBreaking => DateTime.Now.TimeOfDay >= StartTime && DateTime.Now.TimeOfDay < EndTime;
         public TimeSpan TimeLeft => EndTime - DateTime.Now.TimeOfDay;
-        public Color BackgroundColor => IsBreaking ? Color.FromHex("#2e8b57") : Color.FromHex("#232323");
+        public Color BackgroundColor => BreakType == Type.BetweenSubjects && IsBreaking ? Color.FromHex("#2e8b57") : Color.FromHex("#232323");
         public string Text
         {
             get
             {
                 if (BreakType == Type.BeforeStart)
                 {
-                    if (TimeLeft.TotalSeconds > 0)
+                    if ((StartTime - DateTime.Now.TimeOfDay).TotalSeconds > 0)
                     {
                         return "До начала пар " + TimeLeft.ToTimeLeft();
+                    }
+                    else if (TimeLeft.TotalMilliseconds < 0)
+                    {
+                        return "Фух, все пары закончены";
                     }
                     else
                     {

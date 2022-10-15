@@ -1,4 +1,5 @@
-﻿using App1.TableItems;
+﻿using App1.Extensions;
+using App1.TableItems;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -25,6 +26,9 @@ namespace App1
             AllSubjects = new CustomList<ListViewItem>();
             weekToggle.IsToggled = selectedWeek == Week.Bottom;
             RefreshToggle();
+
+            selectedWeek = GetCurrentWeek();
+            selectedDay = GetCurrentDay();
             Display();
 
             BindingContext = this;
@@ -67,7 +71,7 @@ namespace App1
 
             if (records.Length != 0)
             {
-                AllSubjects.Add(GetBeforeDayBreak(records[0].Order));
+                AllSubjects.Add(GetBeforeDayBreak(records.First().Order, records.Last().Order));
 
                 for (int i = 0; i < records.Length; i++)
                 {
@@ -90,12 +94,14 @@ namespace App1
 
             AllSubjects.NotifyUpdate();
         }
-        private Break GetBeforeDayBreak(int firstOrder)
+        private Break GetBeforeDayBreak(int firstOrder, int lastOrder)
         {
-            TimeSpan end = timeRangeByOrder[firstOrder].Key;
+            TimeSpan start = timeRangeByOrder[firstOrder].Key;
+            TimeSpan end = timeRangeByOrder[lastOrder].Value;
             return new Break()
             {
                 BreakType = Break.Type.BeforeStart,
+                StartTime = start,
                 EndTime = end
             };
         }
@@ -133,10 +139,9 @@ namespace App1
         }
         private void RefreshDate()
         {
-            int weekNo = GetWeekOfMonth(DateTime.Today);
+            Week currentWeek = GetCurrentWeek();
 
-            Week currentWeek = weekNo % 2 == 0 ? Week.Bottom : Week.Top;
-            int dayOfWeekDelta = (int)selectedDay - (int)CultureInfo.CurrentCulture.Calendar.GetDayOfWeek(DateTime.Now);
+            int dayOfWeekDelta = (int)selectedDay - (int)GetCurrentDay();
             int weekDaysDelta = currentWeek == selectedWeek ? 0 : 7;
             int totalDelta = dayOfWeekDelta + weekDaysDelta;
             DateTime selectedDate = DateTime.Now.AddDays(totalDelta);
@@ -166,6 +171,15 @@ namespace App1
                 date = date.AddDays(1);
 
             return (int)Math.Truncate((double)date.Subtract(beginningOfMonth).TotalDays / 7f) + 1;
+        }
+        private Week GetCurrentWeek()
+        {
+            int weekNo = GetWeekOfMonth(DateTime.Today);
+            return weekNo % 2 == 0 ? Week.Bottom : Week.Top;
+        }
+        private Day GetCurrentDay()
+        {
+            return CultureInfo.CurrentCulture.Calendar.GetDayOfWeek(DateTime.Now).Normalize();
         }
 
 
