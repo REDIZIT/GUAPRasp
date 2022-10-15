@@ -63,6 +63,9 @@ namespace App1.Pages
             if (e.StatusType == GestureStatus.Running)
             {
                 currentPosition = e.TotalY;
+
+                //PanContainerRef.Content.TranslationY = openPosition + e.TotalY;
+
                 if (e.TotalY > 0)
                 {
                     PanContainerRef.Content.TranslationY = openPosition + e.TotalY;
