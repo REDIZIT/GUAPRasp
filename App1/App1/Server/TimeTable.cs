@@ -2,45 +2,73 @@
 using App1.Server;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 
 namespace App1
 {
     public static class TimeTable
     {
-        private static Dictionary<Week, Dictionary<Day, SortedList<int, TimeTableRecord>>> sortedRecords = new Dictionary<Week, Dictionary<Day, SortedList<int, TimeTableRecord>>>();
+        public static bool IsDirty { get; set; }
+        public static bool IsRefreshing { get; private set; }
 
         public static void Download()
         {
             var t1 = DateTime.Now;
 
-            ServerParser parser = new ServerParser();
-            TimeTableRecord[] records = parser.Download();
-
-            foreach (TimeTableRecord record in records)
+            if (Connectivity.NetworkAccess == NetworkAccess.Internet)
             {
-                var dayDict = sortedRecords.GetOrCreate(record.Week);
-                var list = dayDict.GetOrCreate(record.Day);
-                list.Add(record.Order, record);
+                Log.ShowAlert("Download");
+
+                Task.Run(DownloadTable);
+            }
+            else
+            {
+                Log.ShowAlert("Load");
             }
 
-            Log.ShowAlert("Settings before = " + Settings.Model.testValue);
-
-            Settings.Model.testValue = "098";
-            Settings.Save();
-
-            Log.ShowAlert("Settings after = " + Settings.Model.testValue);
             int ms = (int)(DateTime.Now - t1).TotalMilliseconds;
-            //Log.ShowAlert("Downloaded in " + ms + "ms");
+            Log.ShowAlert("Downloaded in " + ms + "ms");
+            Log.ShowAlert("Count = " + Settings.Model.sortedRecords.Count);
+
+            IsDirty = true;
         }
 
         public static IEnumerable<TimeTableRecord> GetRecords(Week week, Day day)
         {
-            if (sortedRecords.TryGetValue(week, out var days) && days.TryGetValue(day, out var records))
+            if (Settings.Model.sortedRecords.TryGetValue(week, out var days) && days.TryGetValue(day, out var records))
             {
                 return records.Values;
             }
             return new List<TimeTableRecord>();
+        }
+
+        private static void DownloadTable()
+        {
+            IsRefreshing = true;
+
+            try
+            {
+                ServerParser parser = new ServerParser();
+                TimeTableRecord[] records = parser.Download();
+
+                Settings.Model.sortedRecords.Clear();
+
+                foreach (TimeTableRecord record in records)
+                {
+                    var dayDict = Settings.Model.sortedRecords.GetOrCreate(record.Week);
+                    var list = dayDict.GetOrCreate(record.Day);
+                    list.Add(record.Order, record);
+                }
+
+                Settings.Save();
+            }
+            finally
+            {
+                IsRefreshing = false;
+                IsDirty = true;
+            }
         }
     }
 }

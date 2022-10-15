@@ -3,6 +3,7 @@ using App1.TableItems;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using Xamarin.Forms;
@@ -11,11 +12,12 @@ namespace App1
 {
     public partial class MainPage : ContentPage
     {
-        public CustomList<ListViewItem> AllSubjects { get; set; }
+        public CustomList<ListViewItem> AllSubjects { get; set; } = new CustomList<ListViewItem>();
+        public bool IsRefreshing => TimeTable.IsRefreshing;
 
         private Dictionary<int, KeyValuePair<TimeSpan, TimeSpan>> timeRangeByOrder = new Dictionary<int, KeyValuePair<TimeSpan, TimeSpan>>();
-        private Week selectedWeek = Week.Bottom;
-        private Day selectedDay = Day.Monday;
+        private Week selectedWeek;
+        private Day selectedDay;
 
         public MainPage()
         {
@@ -23,18 +25,29 @@ namespace App1
 
             CreateTimeRanges();
 
-            AllSubjects = new CustomList<ListViewItem>();
+            selectedWeek = GetCurrentWeek();
+            selectedDay = GetCurrentDay();
+
             weekToggle.IsToggled = selectedWeek == Week.Bottom;
             RefreshToggle();
 
-            selectedWeek = GetCurrentWeek();
-            selectedDay = GetCurrentDay();
-            Display();
-
             BindingContext = this;
+
+            Display();
 
             Device.StartTimer(TimeSpan.FromSeconds(1), () =>
             {
+                if (TimeTable.IsDirty)
+                {
+                    selectedWeek = GetCurrentWeek();
+                    selectedDay = GetCurrentDay();
+                    AllSubjects.Clear();
+                    Display();
+                    TimeTable.IsDirty = false;
+
+                    OnPropertyChanged(nameof(IsRefreshing));
+                }
+
                 foreach (var item in AllSubjects)
                 {
                     item.OnUpdate();

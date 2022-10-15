@@ -1,8 +1,11 @@
-﻿namespace App1
+﻿using System.Collections.Generic;
+
+namespace App1
 {
-    [System.Serializable]
     public class SettingsModel
     {
         public string testValue = "123";
+
+        public Dictionary<Week, Dictionary<Day, SortedList<int, TimeTableRecord>>> sortedRecords = new Dictionary<Week, Dictionary<Day, SortedList<int, TimeTableRecord>>>();
     }
 }

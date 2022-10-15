@@ -1,6 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:app1="clr-namespace:App1.TableItems"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:app1="clr-namespace:App1.TableItems"
+             xmlns:t="clr-namespace:App1"
              x:Class="App1.MainPage">
 
     <ContentPage.Resources>
@@ -75,9 +77,10 @@
         <Label x:Name="dateLabel" Text="Сегодня" BackgroundColor="#222" HorizontalOptions="Fill" HeightRequest="32" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Start"/>
         
 
-        <ListView HasUnevenRows="True" ItemsSource="{Binding AllSubjects}" 
+        <ListView x:Name="listView" HasUnevenRows="True" ItemsSource="{Binding AllSubjects}" 
                   ItemTapped="OnItemTapped" Margin="12, 4" SelectionMode="None" SeparatorColor="Transparent" 
-                  ItemTemplate="{StaticResource listTemplateSelector}" VerticalScrollBarVisibility="Never">
+                  ItemTemplate="{StaticResource listTemplateSelector}" VerticalScrollBarVisibility="Never"
+                  IsRefreshing="{Binding IsRefreshing}}">
         </ListView>
     </StackLayout>
 </ContentPage>

@@ -11,12 +11,10 @@ namespace App1
         {
             if (Application.Current.Properties.TryGetValue("settings", out object json))
             {
-                Log.ShowAlert("Get json");
                 Model = JsonConvert.DeserializeObject<SettingsModel>((string)json);
             }
             else
             {
-                Log.ShowAlert("Get new");
                 Model = new SettingsModel();
             }
         }
