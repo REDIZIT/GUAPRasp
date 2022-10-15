@@ -2,6 +2,7 @@
 using App1.Server;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
@@ -23,13 +24,27 @@ namespace App1
             IsDirty = true;
         }
 
-        public static IEnumerable<TimeTableRecord> GetRecords(Week week, Day day)
+        public static IEnumerable<ITimeTableRecord> GetRecords(Week week, Day day)
         {
-            if (Settings.Model.sortedRecords.TryGetValue(week, out var days) && days.TryGetValue(day, out var records))
+            List<ITimeTableRecord> records = new List<ITimeTableRecord>();
+
+            if (Settings.Model.sortedRecords.TryGetValue(week, out var days) && days.TryGetValue(day, out var dictRecords))
             {
-                return records.Values;
+                records.AddRange(dictRecords.Values);
             }
-            return new List<TimeTableRecord>();
+
+            List<SubjectOverride> unhandledOverrides = Settings.Model.overrides.Where(o => o.Contains(week, day)).ToList();
+            foreach (SubjectOverride subjectOverride in unhandledOverrides)
+            {
+                records.RemoveAll(r => r.IsSameTime(subjectOverride.FromRecord));
+
+                if (subjectOverride.ToRecord.Week == week && subjectOverride.ToRecord.Day == day)
+                {
+                    records.Add(subjectOverride);
+                }
+            }
+
+            return records.OrderBy(r => r.Order);
         }
 
         private static void DownloadTable()

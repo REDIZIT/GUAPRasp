@@ -85,7 +85,7 @@ namespace App1
 
                 for (int i = 0; i < records.Length; i++)
                 {
-                    TimeTableRecord record = records[i];
+                    ITimeTableRecord record = records[i];
 
                     AllSubjects.Add(new SubjectItem()
                     {

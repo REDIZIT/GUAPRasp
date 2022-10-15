@@ -1,11 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using App1.Server;
+using System.Collections.Generic;
 
 namespace App1
 {
     public class SettingsModel
     {
-        public string testValue = "123";
+        public WeekDayDictionary<TimeTableRecord> sortedRecords = new();
+        public List<SubjectOverride> overrides = new();
+    }
 
-        public Dictionary<Week, Dictionary<Day, SortedList<int, TimeTableRecord>>> sortedRecords = new Dictionary<Week, Dictionary<Day, SortedList<int, TimeTableRecord>>>();
+    public class WeekDayDictionary<T> : Dictionary<Week, Dictionary<Day, SortedList<int, T>>>
+    {
+
     }
 }

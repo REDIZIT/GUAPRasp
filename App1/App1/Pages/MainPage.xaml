@@ -27,12 +27,11 @@
                                             <RowDefinition Height="1*"/>
                                         </Grid.RowDefinitions>
                                         <Label TextColor="{Binding Record.Subject.TypeColor}" Grid.Row="0" VerticalTextAlignment="Center" Text="{Binding Record.Subject.Type}"></Label>
-                                        <Ellipse Grid.Row="0" Fill="Coral" WidthRequest="8" HeightRequest="8" HorizontalOptions="End" VerticalOptions="Center"/>
+                                        <Ellipse IsVisible="{Binding Record.IsOverriden}" Grid.Row="0" Fill="Coral" WidthRequest="8" HeightRequest="8" HorizontalOptions="End" VerticalOptions="Center"/>
                                         <Label VerticalTextAlignment="Center" Grid.Row="1">
                                             <Label.FormattedText>
                                                 <FormattedString>
-                                                    <Span TextColor="Gray" Text="{Binding Record.Subject.Name}" FontSize="Small" TextDecorations="Strikethrough"/>
-                                                    <Span Text="{x:Static system:Environment.NewLine}"/>
+                                                    <Span TextColor="Gray" Text="{Binding Record.OverridenText}" FontSize="Small" TextDecorations="Strikethrough"/>
                                                     <Span TextColor="White" Text="{Binding Record.Subject.Name}" FontSize="Medium" FontAttributes="Bold"/>
                                                 </FormattedString>
                                             </Label.FormattedText>
@@ -41,7 +40,7 @@
                                         <Label VerticalTextAlignment="Start" Grid.Row="3" >
                                             <Label.FormattedText>
                                                 <FormattedString>
-                                                    <Span TextColor="White" FontSize="14" Text="{Binding Record.Address}" />
+                                                    <Span TextColor="White" FontSize="14" Text="{Binding Record.Subject.Address}" />
                                                     <Span Text="   "/>
                                                     <Span TextColor="Gray" FontSize="12" Text="{Binding Record.Subject.Groups}" />
                                                 </FormattedString>

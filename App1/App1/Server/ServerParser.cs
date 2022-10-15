@@ -23,12 +23,12 @@ namespace App1.Server
                     Day = (Day)item.Day,
                     Week = (Week)item.Week,
                     Order = item.Less,
-                    Address = ShortBuild(item.Build) + " " + item.Rooms,
 
                     Subject = new Subject()
                     {
                         Type = TranslateType(item.Type),
                         Name = item.Disc,
+                        Address = ShortBuild(item.Build) + " " + item.Rooms,
                         Groups = item.GroupsText.Replace(";", ","),
                         Teachers = string.IsNullOrWhiteSpace(item.PrepsText) ? "Преподаватель не назначен" : string.Join("; ", item.PrepsText.Split(';').Select(s => s.Split('—')[0]))
                     }

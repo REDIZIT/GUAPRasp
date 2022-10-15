@@ -5,7 +5,7 @@ namespace App1.TableItems
 {
     public class SubjectItem : ListViewItem, INotifyPropertyChanged
     {
-        public TimeTableRecord Record { get; set; }
+        public ITimeTableRecord Record { get; set; }
         public int Order { get; set; }
 
         public TimeSpan StartTime { get; set; }
