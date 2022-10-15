@@ -1,4 +1,5 @@
 ﻿using App1.Server;
+using System;
 using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -8,14 +9,21 @@ namespace App1.Pages
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SubjectMove : ContentView
     {
-        public Subject FromSubject { get; set; }
+        public TimeTableRecord FromRecord { get; set; }
 
         public bool IsValid { get; private set; }
         public bool IsInvalid => IsValid == false;
 
-        public SubjectMove(Subject subject)
+        private Action<SubjectOverride> onClicked;
+
+        private Week toWeek;
+        private Day toDay;
+        private int toOrder;
+
+        public SubjectMove(TimeTableRecord fromRecord, Action<SubjectOverride> onClicked)
         {
-            FromSubject = subject;
+            FromRecord = fromRecord;
+            this.onClicked = onClicked;
 
             BindingContext = this;
 
@@ -24,11 +32,11 @@ namespace App1.Pages
 
         private void PickerChanged(object sender, System.EventArgs e)
         {
-            Week week = (Week)(weekPicker.SelectedIndex + 1);
-            Day day = (Day)(dayPicker.SelectedIndex + 1);
-            int order = orderPicker.SelectedIndex + 1;
+            toWeek = (Week)(weekPicker.SelectedIndex + 1);
+            toDay = (Day)(dayPicker.SelectedIndex + 1);
+            toOrder = orderPicker.SelectedIndex + 1;
 
-            Subject toSubject = TimeTable.GetRecords(week, day).FirstOrDefault(r => r.Order == order)?.Subject;
+            Subject toSubject = TimeTable.GetRecords(toWeek, toDay).FirstOrDefault(r => r.Order == toOrder)?.Subject;
 
             if (toSubject != null)
             {
@@ -39,6 +47,15 @@ namespace App1.Pages
 
             OnPropertyChanged(nameof(IsValid));
             OnPropertyChanged(nameof(IsInvalid));
+        }
+
+        private void Button_Clicked(object sender, System.EventArgs e)
+        {
+            SubjectOverride subjectOverride = new SubjectOverride(
+                FromRecord.Week, FromRecord.Day, FromRecord.Order,
+                toWeek, toDay, toOrder);
+
+            onClicked?.Invoke(subjectOverride);
         }
     }
 }

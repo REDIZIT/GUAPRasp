@@ -5,7 +5,7 @@
              HeightRequest="240">
 
     <StackLayout Padding="24, 14">
-        <Label Text="{Binding FromSubject.Name}" FontSize="Medium" TextColor="White" FontAttributes="Bold" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+        <Label Text="{Binding FromRecord.Subject.Name}" FontSize="Medium" TextColor="White" FontAttributes="Bold" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
         <Label Text="Перенести пару на" TextColor="White" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
         <Grid Padding="0, 6, 0, 12">
             <Grid.ColumnDefinitions>
@@ -43,7 +43,7 @@
         
         <Label IsVisible="{Binding IsInvalid}" Text="Нельзя перенести, это время занято" TextColor="White" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
         <Label IsVisible="{Binding IsInvalid}" x:Name="toSubjectLabel" Text="Физика" FontSize="Medium" TextColor="White" FontAttributes="Bold" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
-        <Button IsVisible="{Binding IsValid}" Text="Перенести" CornerRadius="12" BackgroundColor="#2BBB"/>
+        <Button IsVisible="{Binding IsValid}" Text="Перенести" CornerRadius="12" BackgroundColor="#2BBB" Clicked="Button_Clicked"/>
     </StackLayout>
 
 </ContentView>

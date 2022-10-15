@@ -57,12 +57,22 @@ namespace App1
 
         public async void OnItemTapped(object sender, ItemTappedEventArgs e)
         {
-            SubjectItem item = (e.Item as SubjectItem);
-            Sheet.SheetContent = new SubjectActions(() =>
+            if (e.Item is SubjectItem item && item.Record is TimeTableRecord record)
             {
-                Sheet.SheetContent = new SubjectMove(item.Record.Subject);
-            });
-            await Sheet.OpenSheet();
+                Sheet.SheetContent = new SubjectActions(() =>
+                {
+                    Sheet.SheetContent = new SubjectMove(record, (o) =>
+                    {
+                        Settings.Model.overrides.Add(o);
+                        Settings.Save();
+
+                        Display();
+
+                        Sheet.CloseSheet();
+                    });
+                });
+                await Sheet.OpenSheet();
+            }
         }
 
         private void CreateTimeRanges()
