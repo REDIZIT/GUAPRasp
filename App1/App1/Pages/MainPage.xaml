@@ -2,8 +2,8 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:app1="clr-namespace:App1.TableItems"
-             xmlns:t="clr-namespace:App1"
-             x:Class="App1.MainPage">
+             x:Class="App1.MainPage"
+             xmlns:system="clr-namespace:System;assembly=netstandard">
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -19,7 +19,7 @@
                                         <Label Text="{Binding EndTime, StringFormat='{0:hh\\:mm}'}" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" VerticalOptions="FillAndExpand"/>
                                     </StackLayout>
                                     <BoxView BackgroundColor="#5a5a5a" WidthRequest="1"/>
-                                    <Grid Padding="8, 12, 18, 12" RowSpacing="4">
+                                    <Grid Padding="8, 12, 18, 12" RowSpacing="4" HorizontalOptions="FillAndExpand">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="1*"/>
                                             <RowDefinition Height="Auto"/>
@@ -27,7 +27,16 @@
                                             <RowDefinition Height="1*"/>
                                         </Grid.RowDefinitions>
                                         <Label TextColor="{Binding Record.Subject.TypeColor}" Grid.Row="0" VerticalTextAlignment="Center" Text="{Binding Record.Subject.Type}"></Label>
-                                        <Label TextColor="White" Grid.Row="1" VerticalTextAlignment="Center" Text="{Binding Record.Subject.Name}" FontSize="Medium" FontAttributes="Bold"/>
+                                        <Ellipse Grid.Row="0" Fill="Coral" WidthRequest="8" HeightRequest="8" HorizontalOptions="End" VerticalOptions="Center"/>
+                                        <Label VerticalTextAlignment="Center" Grid.Row="1">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span TextColor="Gray" Text="{Binding Record.Subject.Name}" FontSize="Small" TextDecorations="Strikethrough"/>
+                                                    <Span Text="{x:Static system:Environment.NewLine}"/>
+                                                    <Span TextColor="White" Text="{Binding Record.Subject.Name}" FontSize="Medium" FontAttributes="Bold"/>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
                                         <Label TextColor="White" Grid.Row="2" VerticalTextAlignment="Start" Text="{Binding Record.Subject.Teachers}"/>
                                         <Label TextColor="Gray" Grid.Row="3" VerticalTextAlignment="Start" Text="{Binding Record.Subject.Groups}" FontSize="12"/>
                                     </Grid>
