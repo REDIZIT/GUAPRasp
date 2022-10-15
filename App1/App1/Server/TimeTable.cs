@@ -1,6 +1,8 @@
 ﻿using App1.Extensions;
 using App1.Server;
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace App1
 {
@@ -10,15 +12,7 @@ namespace App1
 
         public static void Download()
         {
-            ServerParser parser = new ServerParser();
-            TimeTableRecord[] records = parser.Download();
-
-            foreach (TimeTableRecord record in records)
-            {
-                var dayDict = sortedRecords.GetOrCreate(record.Week);
-                var list = dayDict.GetOrCreate(record.Day);
-                list.Add(record.Order, record);
-            }
+            Task.Run(DownloadTask);
         }
 
         public static IEnumerable<TimeTableRecord> GetRecords(Week week, Day day)
@@ -28,6 +22,26 @@ namespace App1
                 return records.Values;
             }
             return new List<TimeTableRecord>();
+        }
+
+        private static void DownloadTask()
+        {
+            var t1 = DateTime.Now;
+
+            ServerParser parser = new ServerParser();
+            TimeTableRecord[] records = parser.Download();
+
+            foreach (TimeTableRecord record in records)
+            {
+                var dayDict = sortedRecords.GetOrCreate(record.Week);
+                var list = dayDict.GetOrCreate(record.Day);
+                list.Add(record.Order, record);
+            }
+
+            int ms = (int)(DateTime.Now - t1).TotalMilliseconds;
+            Log.ShowAlert("Downloaded in " + ms + "ms");
+            Android.Util.Log.Info("TIMING", "Table downloaded in " + ms + "ms");
+            
         }
     }
 }
