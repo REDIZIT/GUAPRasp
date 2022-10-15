@@ -2,8 +2,48 @@
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="App1.Pages.SubjectMove" 
-             HeightRequest="300">
+             HeightRequest="240">
 
-    <Label Text="Test label" TextColor="White"/>
+    <StackLayout Padding="24, 14">
+        <Label Text="{Binding FromSubject.Name}" FontSize="Medium" TextColor="White" FontAttributes="Bold" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+        <Label Text="Перенести пару на" TextColor="White" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+        <Grid Padding="0, 6, 0, 12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="4.5*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Picker x:Name="weekPicker" Grid.Column="0" HorizontalOptions="FillAndExpand" SelectedIndexChanged="PickerChanged">
+                <Picker.Items>
+                    <x:String>Верхняя неделя</x:String>
+                    <x:String>Нижняя неделя</x:String>
+                </Picker.Items>
+            </Picker>
+            <Picker x:Name="dayPicker" Grid.Column="1" HorizontalOptions="FillAndExpand" SelectedIndexChanged="PickerChanged">
+                <Picker.Items>
+                    <x:String>Понедельник</x:String>
+                    <x:String>Вторник</x:String>
+                    <x:String>Среда</x:String>
+                    <x:String>Четверг</x:String>
+                    <x:String>Пятница</x:String>
+                    <x:String>Суббота</x:String>
+                </Picker.Items>
+            </Picker>
+            <Picker x:Name="orderPicker" Grid.Column="2"  HorizontalOptions="FillAndExpand" SelectedIndexChanged="PickerChanged">
+                <Picker.Items>
+                    <x:String>1</x:String>
+                    <x:String>2</x:String>
+                    <x:String>3</x:String>
+                    <x:String>4</x:String>
+                    <x:String>5</x:String>
+                    <x:String>6</x:String>
+                </Picker.Items>
+            </Picker>
+        </Grid>
+        
+        <Label IsVisible="{Binding IsInvalid}" Text="Нельзя перенести, это время занято" TextColor="White" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+        <Label IsVisible="{Binding IsInvalid}" x:Name="toSubjectLabel" Text="Физика" FontSize="Medium" TextColor="White" FontAttributes="Bold" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+        <Button IsVisible="{Binding IsValid}" Text="Перенести" CornerRadius="12" BackgroundColor="#2BBB"/>
+    </StackLayout>
 
 </ContentView>

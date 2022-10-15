@@ -1,5 +1,6 @@
 ﻿using App1.Extensions;
 using App1.Pages;
+using App1.Server;
 using App1.TableItems;
 using System;
 using System.Collections.Generic;
@@ -56,10 +57,10 @@ namespace App1
 
         public async void OnItemTapped(object sender, ItemTappedEventArgs e)
         {
+            SubjectItem item = (e.Item as SubjectItem);
             Sheet.SheetContent = new SubjectActions(() =>
             {
-                Sheet.SheetContent = new SubjectMove();
-                //Sheet.OpenSheet().Wait();
+                Sheet.SheetContent = new SubjectMove(item.Record.Subject);
             });
             await Sheet.OpenSheet();
         }
