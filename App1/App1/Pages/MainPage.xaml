@@ -9,7 +9,7 @@
         <ResourceDictionary>
             <DataTemplate x:Key="subjectTemplate">
                 <ViewCell>
-                    <StackLayout Padding="0, 6">
+                    <StackLayout Padding="0, 4">
                         <Frame CornerRadius="14" BackgroundColor="#232323" Padding="0">
                             <StackLayout Spacing="0">
                                 <StackLayout Orientation="Horizontal">
@@ -40,7 +40,7 @@
             </DataTemplate>
             <DataTemplate x:Key="breakTemplate">
                 <ViewCell>
-                    <StackLayout Padding="0, 6">
+                    <StackLayout Padding="0, 4">
                         <Frame CornerRadius="14" BackgroundColor="{Binding BackgroundColor}" Padding="0">
                             <Label Text="{Binding Text}" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" HeightRequest="42"/>
                         </Frame>
@@ -55,29 +55,25 @@
 
 
     <StackLayout BackgroundColor="#111" Spacing="0">
-        
-        <Frame BackgroundColor="#222" Padding="0, 12, 0, 0">
-            <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-                <Label Text="Верхняя" TextColor="#D24" VerticalTextAlignment="Center"/>
-                <Switch x:Name="weekToggle" HorizontalOptions="Center" Toggled="Switch_Toggled" OnColor="#121212" ThumbColor="DodgerBlue"/>
-                <Label Text="Нижняя" TextColor="DodgerBlue" VerticalTextAlignment="Center"/>
-            </StackLayout>
+
+        <Frame BackgroundColor="#222" Padding="0" Margin="0">
+            <Button x:Name="weekButton" Text="Верхняя неделя" TextColor="Coral" BackgroundColor="#1222" Clicked="Switch_Toggled"/>
         </Frame>
-        
+
         <StackLayout Orientation="Horizontal" HeightRequest="48" BackgroundColor="#222" HorizontalOptions="Fill" Spacing="0">
-            <Button x:Name="b1" MinimumWidthRequest="1" BackgroundColor="Transparent" Text="ПН" HorizontalOptions="FillAndExpand" Clicked="DayButtonClicked" BindingContext="1"/>
+            <Button x:Name="b1" MinimumWidthRequest="1" BackgroundColor="#1222" Text="ПН" HorizontalOptions="FillAndExpand" Clicked="DayButtonClicked" BindingContext="1"/>
             <BoxView WidthRequest="1" BackgroundColor="#666" VerticalOptions="Center" HeightRequest="24"/>
-            <Button x:Name="b2" MinimumWidthRequest="1" BackgroundColor="Transparent" Text="ВТ" HorizontalOptions="FillAndExpand" Clicked="DayButtonClicked" BindingContext="2"/>
+            <Button x:Name="b2" MinimumWidthRequest="1" BackgroundColor="#1222" Text="ВТ" HorizontalOptions="FillAndExpand" Clicked="DayButtonClicked" BindingContext="2"/>
             <BoxView WidthRequest="1" BackgroundColor="#666" VerticalOptions="Center" HeightRequest="24"/>
-            <Button x:Name="b3" MinimumWidthRequest="1" BackgroundColor="Transparent" Text="СР" HorizontalOptions="FillAndExpand" Clicked="DayButtonClicked" BindingContext="3"/>
+            <Button x:Name="b3" MinimumWidthRequest="1" BackgroundColor="#1222" Text="СР" HorizontalOptions="FillAndExpand" Clicked="DayButtonClicked" BindingContext="3"/>
             <BoxView WidthRequest="1" BackgroundColor="#666" VerticalOptions="Center" HeightRequest="24"/>
-            <Button x:Name="b4" MinimumWidthRequest="1" BackgroundColor="Transparent" Text="ЧТ" HorizontalOptions="FillAndExpand" Clicked="DayButtonClicked" BindingContext="4"/>
+            <Button x:Name="b4" MinimumWidthRequest="1" BackgroundColor="#1222" Text="ЧТ" HorizontalOptions="FillAndExpand" Clicked="DayButtonClicked" BindingContext="4"/>
             <BoxView WidthRequest="1" BackgroundColor="#666" VerticalOptions="Center" HeightRequest="24"/>
-            <Button x:Name="b5" MinimumWidthRequest="1" BackgroundColor="Transparent" Text="ПТ" HorizontalOptions="FillAndExpand" Clicked="DayButtonClicked" BindingContext="5"/>
+            <Button x:Name="b5" MinimumWidthRequest="1" BackgroundColor="#1222" Text="ПТ" HorizontalOptions="FillAndExpand" Clicked="DayButtonClicked" BindingContext="5"/>
             <BoxView WidthRequest="1" BackgroundColor="#666" VerticalOptions="Center" HeightRequest="24"/>
-            <Button x:Name="b6" MinimumWidthRequest="1" BackgroundColor="Transparent" Text="СБ" HorizontalOptions="FillAndExpand" Clicked="DayButtonClicked" BindingContext="6"/>
+            <Button x:Name="b6" MinimumWidthRequest="1" BackgroundColor="#1222" Text="СБ" HorizontalOptions="FillAndExpand" Clicked="DayButtonClicked" BindingContext="6"/>
             <BoxView WidthRequest="1" BackgroundColor="#666" VerticalOptions="Center" HeightRequest="24"/>
-            <Button x:Name="b7" MinimumWidthRequest="1" BackgroundColor="Transparent" Text="-" HorizontalOptions="FillAndExpand" Clicked="DayButtonClicked" BindingContext="7"/>
+            <Button x:Name="b7" MinimumWidthRequest="1" BackgroundColor="#1222" Text="-" HorizontalOptions="FillAndExpand" Clicked="DayButtonClicked" BindingContext="7"/>
         </StackLayout>
 
         <Label x:Name="dateLabel" Text="Сегодня" BackgroundColor="#222" HorizontalOptions="Fill" HeightRequest="32" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Start"/>
@@ -86,7 +82,7 @@
         <ListView x:Name="listView" HasUnevenRows="True" ItemsSource="{Binding AllSubjects}" 
                   ItemTapped="OnItemTapped" Margin="12, 4" SelectionMode="None" SeparatorColor="Transparent" 
                   ItemTemplate="{StaticResource listTemplateSelector}" VerticalScrollBarVisibility="Never"
-                  IsRefreshing="{Binding IsRefreshing}}">
+                  IsRefreshing="{Binding IsRefreshing}">
         </ListView>
     </StackLayout>
 </ContentPage>

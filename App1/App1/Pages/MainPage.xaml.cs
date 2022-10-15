@@ -28,7 +28,6 @@ namespace App1
             selectedWeek = GetCurrentWeek();
             selectedDay = GetCurrentDay();
 
-            weekToggle.IsToggled = selectedWeek == Week.Bottom;
             RefreshToggle();
 
             BindingContext = this;
@@ -145,8 +144,10 @@ namespace App1
         }
         private void RefreshToggle()
         {
-            Color color = selectedWeek == Week.Bottom ? Color.FromHex("#1e90ff") : Color.FromHex("#D24");
-            weekToggle.ThumbColor = color;
+            string postfix = GetCurrentWeek() == selectedWeek ? ", текущая" : ", следующая";
+
+            weekButton.Text = (selectedWeek == Week.Bottom ? "Нижняя неделя" : "Верхняя неделя") + postfix;
+            weekButton.TextColor = selectedWeek == Week.Bottom ? Color.FromHex("#1e90ff") : Color.FromHex("#ff7f50");
         }
         private void RefreshDate()
         {
@@ -203,10 +204,9 @@ namespace App1
             Display();
         }
 
-        private void Switch_Toggled(object sender, ToggledEventArgs e)
+        private void Switch_Toggled(object sender, object e)
         {
-            bool isToggled = e.Value;
-            selectedWeek = isToggled ? Week.Bottom : Week.Top;
+            selectedWeek = selectedWeek == Week.Bottom ? Week.Top : Week.Bottom;
 
             RefreshToggle();
 
