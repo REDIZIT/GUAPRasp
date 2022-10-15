@@ -1,6 +1,6 @@
 ﻿using Xamarin.Forms;
 
-namespace App1
+namespace App1.TableItems
 {
     public class ListTemplateSelector : DataTemplateSelector
     {
@@ -9,7 +9,7 @@ namespace App1
 
         protected override DataTemplate OnSelectTemplate(object item, BindableObject container)
         {
-            return ((ListViewItem)item) is SubjectItem ? SubjectTemplate : BreakTemplate;
+            return (ListViewItem)item is SubjectItem ? SubjectTemplate : BreakTemplate;
         }
     }
 }

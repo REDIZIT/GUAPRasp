@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 
-namespace App1
+namespace App1.TableItems
 {
     public class SubjectItem : ListViewItem, INotifyPropertyChanged
     {

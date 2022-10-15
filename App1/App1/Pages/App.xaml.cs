@@ -1,5 +1,4 @@
-﻿using App1.Pages;
-using System;
+﻿using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -11,7 +10,7 @@ namespace App1
         {
             InitializeComponent();
 
-            MainPage = new FlyoutPage1();
+            MainPage = new MainPage();
         }
 
         protected override void OnStart()

@@ -47,7 +47,22 @@
 
 
     <StackLayout BackgroundColor="#111">
-        <ListView x:Name="phonesList" HasUnevenRows="True" ItemsSource="{Binding AllSubjects}" 
+        <StackLayout Orientation="Horizontal" HeightRequest="48" BackgroundColor="#333" HorizontalOptions="Fill" Spacing="0">
+            <Button x:Name="b1" MinimumWidthRequest="1" BackgroundColor="#333" Text="ПН" HorizontalOptions="FillAndExpand" Clicked="DayButtonClicked" BindingContext="1"/>
+            <BoxView WidthRequest="1" BackgroundColor="#888" VerticalOptions="Center" HeightRequest="24"/>
+            <Button x:Name="b2" MinimumWidthRequest="1" BackgroundColor="#333" Text="ВТ" HorizontalOptions="FillAndExpand" Clicked="DayButtonClicked" BindingContext="2"/>
+            <BoxView WidthRequest="1" BackgroundColor="#888" VerticalOptions="Center" HeightRequest="24"/>
+            <Button x:Name="b3" MinimumWidthRequest="1" BackgroundColor="#333" Text="СР" HorizontalOptions="FillAndExpand" Clicked="DayButtonClicked" BindingContext="3"/>
+            <BoxView WidthRequest="1" BackgroundColor="#888" VerticalOptions="Center" HeightRequest="24"/>
+            <Button x:Name="b4" MinimumWidthRequest="1" BackgroundColor="#333" Text="ЧТ" HorizontalOptions="FillAndExpand" Clicked="DayButtonClicked" BindingContext="4"/>
+            <BoxView WidthRequest="1" BackgroundColor="#888" VerticalOptions="Center" HeightRequest="24"/>
+            <Button x:Name="b5" MinimumWidthRequest="1" BackgroundColor="#333" Text="ПТ" HorizontalOptions="FillAndExpand" Clicked="DayButtonClicked" BindingContext="5"/>
+            <BoxView WidthRequest="1" BackgroundColor="#888" VerticalOptions="Center" HeightRequest="24"/>
+            <Button x:Name="b6" MinimumWidthRequest="1" BackgroundColor="#333" Text="СБ" HorizontalOptions="FillAndExpand" Clicked="DayButtonClicked" BindingContext="6"/>
+            <BoxView WidthRequest="1" BackgroundColor="#888" VerticalOptions="Center" HeightRequest="24"/>
+            <Button x:Name="b7" MinimumWidthRequest="1" BackgroundColor="#333" Text="-" HorizontalOptions="FillAndExpand" Clicked="DayButtonClicked" BindingContext="7"/>
+        </StackLayout>
+        <ListView HasUnevenRows="True" ItemsSource="{Binding AllSubjects}" 
                   ItemTapped="OnItemTapped" Margin="12" SelectionMode="None" SeparatorColor="Transparent" 
                   ItemTemplate="{StaticResource listTemplateSelector}" VerticalScrollBarVisibility="Never">
         </ListView>
