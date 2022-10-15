@@ -19,12 +19,18 @@
                                         <Label Text="{Binding EndTime, StringFormat='{0:hh\\:mm}'}" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" VerticalOptions="FillAndExpand"/>
                                     </StackLayout>
                                     <BoxView BackgroundColor="#5a5a5a" WidthRequest="1"/>
-                                    <StackLayout Padding="8, 12, 18, 12">
-                                        <Label TextColor="Violet" Text="{Binding Record.Subject.Type}"></Label>
-                                        <Label TextColor="White" Text="{Binding Record.Subject.Name}" FontSize="Medium" FontAttributes="Bold"/>
-                                        <Label TextColor="White" Text="{Binding Record.Subject.Groups}"/>
-                                        <Label TextColor="White" Text="{Binding Record.Subject.Teachers}"/>
-                                    </StackLayout>
+                                    <Grid Padding="8, 12, 18, 12" RowSpacing="4">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="1*"/>
+                                        </Grid.RowDefinitions>
+                                        <Label TextColor="{Binding Record.Subject.TypeColor}" Grid.Row="0" VerticalTextAlignment="Center" Text="{Binding Record.Subject.Type}"></Label>
+                                        <Label TextColor="White" Grid.Row="1" VerticalTextAlignment="Center" Text="{Binding Record.Subject.Name}" FontSize="Medium" FontAttributes="Bold"/>
+                                        <Label TextColor="White" Grid.Row="2" VerticalTextAlignment="Start" Text="{Binding Record.Subject.Teachers}"/>
+                                        <Label TextColor="Gray" Grid.Row="3" VerticalTextAlignment="Start" Text="{Binding Record.Subject.Groups}" FontSize="12"/>
+                                    </Grid>
                                 </StackLayout>
                                 <Label IsVisible="{Binding IsEnding}" Text="{Binding TimeUntilEnd, StringFormat='До конца {0:hh\\:mm\\:ss}'}" BackgroundColor="SeaGreen" TextColor="White" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center" VerticalOptions="FillAndExpand" HeightRequest="32" VerticalTextAlignment="Center"></Label>
                             </StackLayout>

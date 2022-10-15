@@ -39,8 +39,6 @@ namespace App1
             {
                 if (TimeTable.IsDirty)
                 {
-                    selectedWeek = GetCurrentWeek();
-                    selectedDay = GetCurrentDay();
                     AllSubjects.Clear();
                     Display();
                     TimeTable.IsDirty = false;

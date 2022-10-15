@@ -15,8 +15,6 @@ namespace App1
 
         public static void Download()
         {
-            var t1 = DateTime.Now;
-
             if (Connectivity.NetworkAccess == NetworkAccess.Internet)
             {
                 Log.ShowAlert("Download");
@@ -27,10 +25,6 @@ namespace App1
             {
                 Log.ShowAlert("Load");
             }
-
-            int ms = (int)(DateTime.Now - t1).TotalMilliseconds;
-            Log.ShowAlert("Downloaded in " + ms + "ms");
-            Log.ShowAlert("Count = " + Settings.Model.sortedRecords.Count);
 
             IsDirty = true;
         }

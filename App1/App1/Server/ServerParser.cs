@@ -26,16 +26,28 @@ namespace App1.Server
 
                     Subject = new Subject()
                     {
-                        Type = item.Type,
+                        Type = TranslateType(item.Type),
                         Name = item.Disc,
-                        Groups = item.GroupsText,
-                        Teachers = string.Join("; ", item.PrepsText.Split(';').Select(s => s.Split('—')[0]))
+                        Groups = item.GroupsText.Replace(";", ", "),
+                        Teachers = string.IsNullOrWhiteSpace(item.PrepsText) ? "Преподаватель не назначен" : string.Join("; ", item.PrepsText.Split(';').Select(s => s.Split('—')[0]))
                     }
                 };
             }
 
             return tableRecords;
         }
+        private string TranslateType(string shortType)
+        {
+            switch (shortType)
+            {
+                case "Л": return "Лекция";
+                case "ПР": return "Практическая работа";
+                case "ЛР": return "Лабораторная работа";
+                default: return shortType;
+            }
+        }
+
+
         private class Item
         {
             public int ItemId;
