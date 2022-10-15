@@ -1,4 +1,5 @@
-﻿using System;
+﻿using App1.TableItems;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -14,33 +15,37 @@ namespace App1
         public ObservableCollection<ListViewItem> AllSubjects { get; set; }
 
         private Dictionary<int, KeyValuePair<TimeSpan, TimeSpan>> timeRangeByOrder = new Dictionary<int, KeyValuePair<TimeSpan, TimeSpan>>();
-        private TimeTable table;
+        private Week selectedWeek = Week.Bottom;
+        private Day selectedDay = Day.Monday;
 
         public MainPage()
         {
             InitializeComponent();
 
             CreateTimeRanges();
-            table = new TimeTable();
-            table.Download();
 
             AllSubjects = new ObservableCollection<ListViewItem>();
-            Display(Week.Top, Day.Wednesday);
+            WeekToggle.IsToggled = selectedWeek == Week.Bottom;
+            RefreshToggle();
+            Display();
 
             BindingContext = this;
 
-            Device.StartTimer(TimeSpan.FromSeconds(0.1), () =>
+            Device.StartTimer(TimeSpan.FromSeconds(1), () =>
             {
-                AllSubjects[0].OnUpdate();
+                foreach (var item in AllSubjects)
+                {
+                    item.OnUpdate();
+                }
                 return true;
             });
         }
 
         public async void OnItemTapped(object sender, ItemTappedEventArgs e)
         {
-            //ListViewModel selectedModel = e.Item as ListViewModel;
-            //if (selectedModel != null)
-            //    await DisplayAlert("Выбранная модель", $"{selectedModel.GetType()}", "OK");
+            ListViewItem selectedModel = e.Item as ListViewItem;
+            if (selectedModel != null)
+                await DisplayAlert("Выбранная модель", $"{selectedModel.GetType()}", "OK");
         }
 
         private void CreateTimeRanges()
@@ -53,11 +58,11 @@ namespace App1
             timeRangeByOrder.Add(6, new KeyValuePair<TimeSpan, TimeSpan>(new TimeSpan(18, 30, 00), new TimeSpan(20, 00, 00)));
         }
         
-        private void Display(Week week, Day day)
+        private void Display()
         {
-            RefreshButtons((int)day);
+            RefreshButtons((int)selectedDay);
 
-            var records = table.GetRecords(week, day).ToArray();
+            var records = TimeTable.GetRecords(selectedWeek, selectedDay).ToArray();
 
             AllSubjects.Clear();
             for (int i = 0; i < records.Length; i++)
@@ -107,7 +112,24 @@ namespace App1
         {
             Button button = (Button)sender;
 
-            Display(Week.Top, (Day)int.Parse((string)button.BindingContext));
+            selectedDay = (Day)int.Parse((string)button.BindingContext);
+
+            Display();
+        }
+
+        private void Switch_Toggled(object sender, ToggledEventArgs e)
+        {
+            bool isToggled = e.Value;
+            selectedWeek = isToggled ? Week.Bottom : Week.Top;
+
+            RefreshToggle();
+
+            Display();
+        }
+        private void RefreshToggle()
+        {
+            Color color = selectedWeek == Week.Bottom ? Color.FromHex("#1e90ff") : Color.FromHex("#D24");
+            WeekToggle.ThumbColor = color;
         }
     }
 }
