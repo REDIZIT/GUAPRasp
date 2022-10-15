@@ -14,7 +14,7 @@ namespace App1
             Settings.Load();
             TimeTable.Download();
 
-            MainPage = new TestPage();
+            MainPage = new MainPage();
         }
 
         protected override void OnStart()

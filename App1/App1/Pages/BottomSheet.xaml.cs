@@ -63,11 +63,14 @@ namespace App1.Pages
             if (e.StatusType == GestureStatus.Running)
             {
                 currentPosition = e.TotalY;
-                PanContainerRef.Content.TranslationY = openPosition + e.TotalY;
-                //if (e.TotalY > 0)
-                //{
-                //    PanContainerRef.Content.TranslationY = openPosition + e.TotalY;
-                //}
+                if (e.TotalY > 0)
+                {
+                    PanContainerRef.Content.TranslationY = openPosition + e.TotalY;
+                }
+                else
+                {
+                    PanContainerRef.Content.TranslationY = openPosition - Math.Sqrt(Math.Abs(e.TotalY));
+                }
             }
             else if (e.StatusType == GestureStatus.Completed)
             {

@@ -16,6 +16,7 @@
                  x:Name="Backdrop">
                 <BoxView.GestureRecognizers>
                     <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
+                    <PanGestureRecognizer PanUpdated="PanGestureRecognizer_PanUpdated"/>
                 </BoxView.GestureRecognizers>
             </BoxView>
 

@@ -55,9 +55,7 @@ namespace App1
 
         public async void OnItemTapped(object sender, ItemTappedEventArgs e)
         {
-            ListViewItem selectedModel = e.Item as ListViewItem;
-            if (selectedModel != null)
-                await DisplayAlert("Выбранная модель", $"{selectedModel.GetType()}", "OK");
+            await Sheet.OpenSheet();
         }
 
         private void CreateTimeRanges()
