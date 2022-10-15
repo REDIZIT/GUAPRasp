@@ -76,7 +76,7 @@
         
 
         <ListView HasUnevenRows="True" ItemsSource="{Binding AllSubjects}" 
-                  ItemTapped="OnItemTapped" Margin="12" SelectionMode="None" SeparatorColor="Transparent" 
+                  ItemTapped="OnItemTapped" Margin="12, 4" SelectionMode="None" SeparatorColor="Transparent" 
                   ItemTemplate="{StaticResource listTemplateSelector}" VerticalScrollBarVisibility="Never">
         </ListView>
     </StackLayout>

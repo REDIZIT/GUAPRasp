@@ -1,5 +1,4 @@
-﻿using App1.Extensions;
-using App1.TableItems;
+﻿using App1.TableItems;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,7 +10,7 @@ namespace App1
 {
     public partial class MainPage : ContentPage
     {
-        public ObservableCollection<ListViewItem> AllSubjects { get; set; }
+        public CustomList<ListViewItem> AllSubjects { get; set; }
 
         private Dictionary<int, KeyValuePair<TimeSpan, TimeSpan>> timeRangeByOrder = new Dictionary<int, KeyValuePair<TimeSpan, TimeSpan>>();
         private Week selectedWeek = Week.Bottom;
@@ -23,7 +22,7 @@ namespace App1
 
             CreateTimeRanges();
 
-            AllSubjects = new ObservableCollection<ListViewItem>();
+            AllSubjects = new CustomList<ListViewItem>();
             weekToggle.IsToggled = selectedWeek == Week.Bottom;
             RefreshToggle();
             Display();
@@ -88,6 +87,8 @@ namespace App1
                     }
                 }
             }
+
+            AllSubjects.NotifyUpdate();
         }
         private Break GetBeforeDayBreak(int firstOrder)
         {

@@ -46,7 +46,7 @@ namespace App1
 
         public override void OnUpdate()
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("TimeLeft"));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Text"));
         }
     }
 }
