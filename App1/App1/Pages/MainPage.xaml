@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:app1="clr-namespace:App1.TableItems"
              x:Class="App1.MainPage"
-             xmlns:system="clr-namespace:System;assembly=netstandard"
              xmlns:pages="clr-namespace:App1.Pages">
 
     <ContentPage.Resources>
@@ -107,7 +106,7 @@
 
         <pages:BottomSheet x:Name="Sheet" SheetHeight="160">
             <pages:BottomSheet.SheetContent>
-                <pages:SubjectActions/>
+                <ContentView/>
             </pages:BottomSheet.SheetContent>
         </pages:BottomSheet>
     </Grid>

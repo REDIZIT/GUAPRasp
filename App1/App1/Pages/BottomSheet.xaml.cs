@@ -77,7 +77,7 @@ namespace App1.Pages
             }
             else if (e.StatusType == GestureStatus.Completed)
             {
-                var threshold = SheetHeight * 0.15;
+                var threshold = SheetHeight * 0.25;
 
                 if (currentPosition < threshold)
                 {
@@ -106,7 +106,7 @@ namespace App1.Pages
             await Task.WhenAll
                 (
                     Backdrop.FadeTo(0, length: duration),
-                    PanContainerRef.Content.TranslateTo(x: 0, y: SheetHeight + 60, length: duration, easing: Easing.SinIn)
+                    PanContainerRef.Content.TranslateTo(x: 0, y: SheetContent.Height + 60, length: duration, easing: Easing.SinIn)
                 );
 
             BottomSheetRef.InputTransparent = Backdrop.InputTransparent = true;

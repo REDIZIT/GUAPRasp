@@ -20,7 +20,7 @@
                 </BoxView.GestureRecognizers>
             </BoxView>
 
-            <ContentView x:Name="PanContainerRef" HeightRequest="{Binding SheetHeight, Source={x:Reference BottomSheetRef}}" VerticalOptions="End">
+            <ContentView x:Name="PanContainerRef" HeightRequest="{Binding SheetHeight}" VerticalOptions="End">
                 
                 <ContentView.GestureRecognizers>
                     <PanGestureRecognizer PanUpdated="PanGestureRecognizer_PanUpdated"/>
@@ -30,7 +30,7 @@
 
                     <StackLayout BackgroundColor="Transparent" VerticalOptions="Fill" Padding="0" Margin="0">
                         <BoxView CornerRadius="2.5" BackgroundColor="#444" HorizontalOptions="Center" VerticalOptions="Start" HeightRequest="5" WidthRequest="40"/>
-                        <Frame Margin="0" Padding="0" BackgroundColor="Transparent" Content="{Binding SheetContent, Source={x:Reference BottomSheetRef}}" />
+                        <Frame x:Name="ContentFrame" Margin="0" Padding="0" BackgroundColor="Transparent" Content="{Binding SheetContent, Source={x:Reference BottomSheetRef}}" />
                     </StackLayout>
                     
 

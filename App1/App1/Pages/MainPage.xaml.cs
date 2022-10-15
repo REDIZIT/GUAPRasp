@@ -56,7 +56,11 @@ namespace App1
 
         public async void OnItemTapped(object sender, ItemTappedEventArgs e)
         {
-            Sheet.SheetContent = new SubjectActions();
+            Sheet.SheetContent = new SubjectActions(() =>
+            {
+                Sheet.SheetContent = new SubjectMove();
+                //Sheet.OpenSheet().Wait();
+            });
             await Sheet.OpenSheet();
         }
 
