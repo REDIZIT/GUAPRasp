@@ -10,6 +10,7 @@ namespace App1
         {
             InitializeComponent();
 
+            Settings.Load();
             TimeTable.Download();
 
             MainPage = new MainPage();

@@ -2,6 +2,7 @@
 
 namespace App1
 {
+    [System.Serializable]
     public class TimeTableRecord
     {
         public Day Day { get; set; }

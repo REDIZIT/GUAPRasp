@@ -12,20 +12,6 @@ namespace App1
 
         public static void Download()
         {
-            Task.Run(DownloadTask);
-        }
-
-        public static IEnumerable<TimeTableRecord> GetRecords(Week week, Day day)
-        {
-            if (sortedRecords.TryGetValue(week, out var days) && days.TryGetValue(day, out var records))
-            {
-                return records.Values;
-            }
-            return new List<TimeTableRecord>();
-        }
-
-        private static void DownloadTask()
-        {
             var t1 = DateTime.Now;
 
             ServerParser parser = new ServerParser();
@@ -38,10 +24,23 @@ namespace App1
                 list.Add(record.Order, record);
             }
 
+            Log.ShowAlert("Settings before = " + Settings.Model.testValue);
+
+            Settings.Model.testValue = "098";
+            Settings.Save();
+
+            Log.ShowAlert("Settings after = " + Settings.Model.testValue);
             int ms = (int)(DateTime.Now - t1).TotalMilliseconds;
-            Log.ShowAlert("Downloaded in " + ms + "ms");
-            Android.Util.Log.Info("TIMING", "Table downloaded in " + ms + "ms");
-            
+            //Log.ShowAlert("Downloaded in " + ms + "ms");
+        }
+
+        public static IEnumerable<TimeTableRecord> GetRecords(Week week, Day day)
+        {
+            if (sortedRecords.TryGetValue(week, out var days) && days.TryGetValue(day, out var records))
+            {
+                return records.Values;
+            }
+            return new List<TimeTableRecord>();
         }
     }
 }
