@@ -104,7 +104,7 @@
         </StackLayout>
 
 
-        <pages:BottomSheet x:Name="Sheet" SheetHeight="160">
+        <pages:BottomSheet x:Name="Sheet">
             <pages:BottomSheet.SheetContent>
                 <ContentView/>
             </pages:BottomSheet.SheetContent>

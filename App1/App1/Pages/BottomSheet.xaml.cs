@@ -19,25 +19,12 @@ namespace App1.Pages
         protected override void OnBindingContextChanged()
         {
             base.OnBindingContextChanged();
-            PanContainerRef.Content.TranslationY = SheetHeight + 60;
+            PanContainerRef.Content.TranslationY = SheetContent.Height + 60;
         }
 
         #endregion
 
         #region Properties
-
-        public static BindableProperty SheetHeightProperty = BindableProperty.Create(
-            nameof(SheetHeight),
-            typeof(double),
-            typeof(BottomSheet),
-            defaultValue: default(double),
-            defaultBindingMode: BindingMode.TwoWay);
-
-        public double SheetHeight
-        {
-            get { return (double)GetValue(SheetHeightProperty); }
-            set { SetValue(SheetHeightProperty, value); OnPropertyChanged(); }
-        }
 
         public static BindableProperty SheetContentProperty = BindableProperty.Create(
             nameof(SheetContent),
@@ -77,7 +64,7 @@ namespace App1.Pages
             }
             else if (e.StatusType == GestureStatus.Completed)
             {
-                var threshold = SheetHeight * 0.25;
+                var threshold = SheetContent.Height * 0.25;
 
                 if (currentPosition < threshold)
                 {

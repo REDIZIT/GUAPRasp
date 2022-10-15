@@ -1,9 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="App1.Pages.SubjectActions">
+             x:Class="App1.Pages.SubjectActions"
+             HeightRequest="160">
 
-    <Frame HorizontalOptions="FillAndExpand" BackgroundColor="#444" Margin="24, 12" Padding="0" CornerRadius="12" HasShadow="false">
+    <Frame HorizontalOptions="FillAndExpand" VerticalOptions="Start" BackgroundColor="#444" Margin="24, 12" Padding="0" CornerRadius="12" HasShadow="false">
         <StackLayout Spacing="1">
             <Button Text="Перенести пару" BackgroundColor="#2000" Clicked="Button_Clicked"/>
         </StackLayout>
