@@ -9,8 +9,15 @@ namespace App1
         public List<SubjectOverride> overrides = new();
     }
 
-    public class WeekDayDictionary<T> : Dictionary<Week, Dictionary<Day, SortedList<int, T>>>
+    public class WeekDayDictionary<T> : Dictionary<Week, Dictionary<Day, SortedList<int, T>>> where T : class
     {
-
+        public T TryGetSubject(Week week, Day day, int order)
+        {
+            if (TryGetValue(week, out var dayDict) && dayDict.TryGetValue(day, out var ls) && ls.TryGetValue(order, out T subject))
+            {
+                return subject;
+            }
+            return null;
+        }
     }
 }

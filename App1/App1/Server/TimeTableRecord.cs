@@ -1,5 +1,6 @@
 ﻿using App1.Server;
 using System.Linq;
+using static Android.Graphics.ColorSpace;
 
 namespace App1
 {
@@ -36,6 +37,27 @@ namespace App1
         public Subject Subject => FromRecord.Subject;
         public string OverridenText => (ToRecord.Subject == null ? "Перерыв" : ToRecord.Subject.Name) + "\n";
 
+        public SubjectOverride()
+        {
+
+        }
+        public SubjectOverride(Week fromWeek, Day fromDay, int fromOrder, Week toWeek, Day toDay, int toOrder)
+        {
+            FromRecord = new TimeTableRecord()
+            {
+                Week = fromWeek,
+                Day = fromDay,
+                Order = fromOrder,
+                Subject = Settings.Model.sortedRecords[fromWeek][fromDay][fromOrder].Subject
+            };
+            ToRecord = new TimeTableRecord()
+            {
+                Week = toWeek,
+                Day = toDay,
+                Order = toOrder,
+                Subject = Settings.Model.sortedRecords.TryGetSubject(toWeek, toDay, toOrder)?.Subject
+            };
+        }
         public bool Contains(Week week, Day day)
         {
             if (FromRecord.Week == week || FromRecord.Day == day) return true;

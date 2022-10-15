@@ -29,9 +29,12 @@ namespace App1
                     {
                         Week = Week.Top,
                         Day = Day.Wednesday,
-                        Order = 2
+                        Order = 1,
+                        Subject = Model.sortedRecords[Week.Top][Day.Wednesday][1].Subject
                     }
                 });
+
+                Model.overrides.Add(new SubjectOverride(Week.Top, Day.Wednesday, 1, Week.Top, Day.Saturday, 4));
             }
             else
             {

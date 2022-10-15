@@ -36,7 +36,7 @@ namespace App1
             List<SubjectOverride> unhandledOverrides = Settings.Model.overrides.Where(o => o.Contains(week, day)).ToList();
             foreach (SubjectOverride subjectOverride in unhandledOverrides)
             {
-                records.RemoveAll(r => r.IsSameTime(subjectOverride.FromRecord));
+                records.RemoveAll(r => r is TimeTableRecord && r.IsSameTime(subjectOverride.FromRecord));
 
                 if (subjectOverride.ToRecord.Week == week && subjectOverride.ToRecord.Day == day)
                 {
