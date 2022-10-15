@@ -23,7 +23,11 @@ namespace App1
 
         public static IEnumerable<TimeTableRecord> GetRecords(Week week, Day day)
         {
-            return sortedRecords[week][day].Values;
+            if (sortedRecords.TryGetValue(week, out var days) && days.TryGetValue(day, out var records))
+            {
+                return records.Values;
+            }
+            return new List<TimeTableRecord>();
         }
     }
 }

@@ -1,12 +1,11 @@
-﻿using App1.TableItems;
+﻿using App1.Extensions;
+using App1.TableItems;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Forms;
-using static Xamarin.Essentials.Permissions;
 
 namespace App1
 {
@@ -25,7 +24,7 @@ namespace App1
             CreateTimeRanges();
 
             AllSubjects = new ObservableCollection<ListViewItem>();
-            WeekToggle.IsToggled = selectedWeek == Week.Bottom;
+            weekToggle.IsToggled = selectedWeek == Week.Bottom;
             RefreshToggle();
             Display();
 
@@ -61,28 +60,58 @@ namespace App1
         private void Display()
         {
             RefreshButtons((int)selectedDay);
+            RefreshDate();
 
             var records = TimeTable.GetRecords(selectedWeek, selectedDay).ToArray();
 
             AllSubjects.Clear();
-            for (int i = 0; i < records.Length; i++)
+
+            if (records.Length != 0)
             {
-                TimeTableRecord record = records[i];
+                AllSubjects.Add(GetBeforeDayBreak(records[0].Order));
 
-                AllSubjects.Add(new SubjectItem()
+                for (int i = 0; i < records.Length; i++)
                 {
-                    StartTime = timeRangeByOrder[record.Order].Key,
-                    EndTime = timeRangeByOrder[record.Order].Value,
-                    Order = record.Order,
-                    Record = record
-                });
+                    TimeTableRecord record = records[i];
 
-                if (i < records.Length - 1)
-                {
-                    AllSubjects.Add(GetBreak(record.Order, records[i + 1].Order));
+                    AllSubjects.Add(new SubjectItem()
+                    {
+                        StartTime = timeRangeByOrder[record.Order].Key,
+                        EndTime = timeRangeByOrder[record.Order].Value,
+                        Order = record.Order,
+                        Record = record
+                    });
+
+                    if (i < records.Length - 1)
+                    {
+                        AllSubjects.Add(GetBreak(record.Order, records[i + 1].Order));
+                    }
                 }
             }
         }
+        private Break GetBeforeDayBreak(int firstOrder)
+        {
+            TimeSpan end = timeRangeByOrder[firstOrder].Key;
+            return new Break()
+            {
+                BreakType = Break.Type.BeforeStart,
+                EndTime = end
+            };
+        }
+        private Break GetBreak(int before, int after)
+        {
+            TimeSpan beforeEnd = timeRangeByOrder[before].Value;
+            TimeSpan afterStart = timeRangeByOrder[after].Key;
+
+            return new Break()
+            {
+                BreakType = Break.Type.BetweenSubjects,
+                StartTime = beforeEnd,
+                EndTime = afterStart
+            };
+        }
+
+
         private void RefreshButtons(int day)
         {
             Color activeColor = Color.White;
@@ -96,17 +125,48 @@ namespace App1
             b6.TextColor = day == 6 ? activeColor : unactiveColor;
             b7.TextColor = day == 7 ? activeColor : unactiveColor;
         }
-        private Break GetBreak(int before, int after)
+        private void RefreshToggle()
         {
-            TimeSpan beforeEnd = timeRangeByOrder[before].Value;
-            TimeSpan afterStart = timeRangeByOrder[after].Key;
-
-            return new Break()
-            {
-                 StartTime = beforeEnd,
-                 EndTime = afterStart
-            };
+            Color color = selectedWeek == Week.Bottom ? Color.FromHex("#1e90ff") : Color.FromHex("#D24");
+            weekToggle.ThumbColor = color;
         }
+        private void RefreshDate()
+        {
+            int weekNo = GetWeekOfMonth(DateTime.Today);
+
+            Week currentWeek = weekNo % 2 == 0 ? Week.Bottom : Week.Top;
+            int dayOfWeekDelta = (int)selectedDay - (int)CultureInfo.CurrentCulture.Calendar.GetDayOfWeek(DateTime.Now);
+            int weekDaysDelta = currentWeek == selectedWeek ? 0 : 7;
+            int totalDelta = dayOfWeekDelta + weekDaysDelta;
+            DateTime selectedDate = DateTime.Now.AddDays(totalDelta);
+
+            dateLabel.Text = selectedDate.ToString("m");
+
+
+            if (selectedWeek == currentWeek)
+            {
+                if (selectedDay == Day.Sunday)
+                {
+                    dateLabel.Text = "Вне сетки расписания";
+                }
+                else
+                {
+                    if (dayOfWeekDelta == -1) dateLabel.Text += ", Вчера";
+                    else if (dayOfWeekDelta == 0) dateLabel.Text += ", Сегодня";
+                    else if (dayOfWeekDelta == 1) dateLabel.Text += ", Завтра";
+                }
+            }
+        }
+        private int GetWeekOfMonth(DateTime date)
+        {
+            DateTime beginningOfMonth = new DateTime(date.Year, date.Month, 1);
+
+            while (date.Date.AddDays(1).DayOfWeek != CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek)
+                date = date.AddDays(1);
+
+            return (int)Math.Truncate((double)date.Subtract(beginningOfMonth).TotalDays / 7f) + 1;
+        }
+
 
         private void DayButtonClicked(object sender, EventArgs e)
         {
@@ -125,11 +185,6 @@ namespace App1
             RefreshToggle();
 
             Display();
-        }
-        private void RefreshToggle()
-        {
-            Color color = selectedWeek == Week.Bottom ? Color.FromHex("#1e90ff") : Color.FromHex("#D24");
-            WeekToggle.ThumbColor = color;
         }
     }
 }

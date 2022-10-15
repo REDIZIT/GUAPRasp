@@ -47,13 +47,15 @@
 
 
     <StackLayout BackgroundColor="#111" Spacing="0">
-        <Frame BackgroundColor="#222">
+        
+        <Frame BackgroundColor="#222" Padding="0, 12, 0, 0">
             <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
                 <Label Text="Верхняя" TextColor="#D24" VerticalTextAlignment="Center"/>
-                <Switch x:Name="WeekToggle" HorizontalOptions="Center" Toggled="Switch_Toggled" OnColor="#121212" ThumbColor="DodgerBlue"/>
+                <Switch x:Name="weekToggle" HorizontalOptions="Center" Toggled="Switch_Toggled" OnColor="#121212" ThumbColor="DodgerBlue"/>
                 <Label Text="Нижняя" TextColor="DodgerBlue" VerticalTextAlignment="Center"/>
             </StackLayout>
         </Frame>
+        
         <StackLayout Orientation="Horizontal" HeightRequest="48" BackgroundColor="#222" HorizontalOptions="Fill" Spacing="0">
             <Button x:Name="b1" MinimumWidthRequest="1" BackgroundColor="Transparent" Text="ПН" HorizontalOptions="FillAndExpand" Clicked="DayButtonClicked" BindingContext="1"/>
             <BoxView WidthRequest="1" BackgroundColor="#666" VerticalOptions="Center" HeightRequest="24"/>
@@ -69,6 +71,10 @@
             <BoxView WidthRequest="1" BackgroundColor="#666" VerticalOptions="Center" HeightRequest="24"/>
             <Button x:Name="b7" MinimumWidthRequest="1" BackgroundColor="Transparent" Text="-" HorizontalOptions="FillAndExpand" Clicked="DayButtonClicked" BindingContext="7"/>
         </StackLayout>
+
+        <Label x:Name="dateLabel" Text="Сегодня" BackgroundColor="#222" HorizontalOptions="Fill" HeightRequest="32" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Start"/>
+        
+
         <ListView HasUnevenRows="True" ItemsSource="{Binding AllSubjects}" 
                   ItemTapped="OnItemTapped" Margin="12" SelectionMode="None" SeparatorColor="Transparent" 
                   ItemTemplate="{StaticResource listTemplateSelector}" VerticalScrollBarVisibility="Never">

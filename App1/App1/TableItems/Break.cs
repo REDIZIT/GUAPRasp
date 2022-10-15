@@ -7,6 +7,7 @@ namespace App1
 {
     public class Break : ListViewItem, INotifyPropertyChanged
     {
+        public Type BreakType { get; set; }
         public TimeSpan StartTime { get; set; }
         public TimeSpan EndTime { get; set; }
         public bool IsBreaking => DateTime.Now.TimeOfDay >= StartTime && DateTime.Now.TimeOfDay < EndTime;
@@ -16,7 +17,18 @@ namespace App1
         {
             get
             {
-                if (IsBreaking)
+                if (BreakType == Type.BeforeStart)
+                {
+                    if (TimeLeft.TotalSeconds > 0)
+                    {
+                        return "До начала пар " + TimeLeft.ToTimeLeft();
+                    }
+                    else
+                    {
+                        return "Учеба началась, удачи :)";
+                    }
+                }
+                else if (IsBreaking)
                 {
                     return "До конца перерыва " + TimeLeft.ToTimeLeft();
                 }
@@ -25,6 +37,12 @@ namespace App1
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public enum Type
+        {
+            BeforeStart,
+            BetweenSubjects
+        }
 
         public override void OnUpdate()
         {
