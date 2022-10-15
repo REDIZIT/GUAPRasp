@@ -23,12 +23,13 @@ namespace App1.Server
                     Day = (Day)item.Day,
                     Week = (Week)item.Week,
                     Order = item.Less,
+                    Address = ShortBuild(item.Build) + " " + item.Rooms,
 
                     Subject = new Subject()
                     {
                         Type = TranslateType(item.Type),
                         Name = item.Disc,
-                        Groups = item.GroupsText.Replace(";", ", "),
+                        Groups = item.GroupsText.Replace(";", ","),
                         Teachers = string.IsNullOrWhiteSpace(item.PrepsText) ? "Преподаватель не назначен" : string.Join("; ", item.PrepsText.Split(';').Select(s => s.Split('—')[0]))
                     }
                 };
@@ -44,6 +45,16 @@ namespace App1.Server
                 case "ПР": return "Практическая работа";
                 case "ЛР": return "Лабораторная работа";
                 default: return shortType;
+            }
+        }
+        private string ShortBuild(string longName)
+        {
+            switch (longName)
+            {
+                case "Б.Морская 67": return "Б.М.";
+                case "Гастелло 15": return "Гаст.";
+                case "Ленсовета 14": return "Лен.";
+                default: return longName;
             }
         }
 

@@ -20,6 +20,7 @@ namespace App1.TableItems
         public override void OnUpdate()
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("TimeUntilEnd"));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsEnding"));
         }
     }
 }

@@ -8,6 +8,7 @@ namespace App1
         public Day Day { get; set; }
         public Week Week { get; set; }
         public int Order { get; set; }
+        public string Address { get; set; }
 
         public Subject Subject { get; set; }
     }

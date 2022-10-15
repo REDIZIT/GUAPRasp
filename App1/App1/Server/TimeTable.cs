@@ -17,13 +17,7 @@ namespace App1
         {
             if (Connectivity.NetworkAccess == NetworkAccess.Internet)
             {
-                Log.ShowAlert("Download");
-
                 Task.Run(DownloadTable);
-            }
-            else
-            {
-                Log.ShowAlert("Load");
             }
 
             IsDirty = true;

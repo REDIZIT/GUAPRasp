@@ -51,6 +51,7 @@ namespace App1
         public override void OnUpdate()
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Text"));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsBreaking"));
         }
     }
 }
