@@ -4,13 +4,13 @@
              x:Class="App1.Pages.SubjectOverrideRemove">
     
     <StackLayout Padding="24, 14, 24, 24">
-        <Label Text="{Binding Override.FromRecord.Subject.Name}" FontSize="Medium" TextColor="White" FontAttributes="Bold" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
-        <Label Text="Отменить перенос пары c" TextColor="White" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
-        <Label Text="{Binding FromAddress}" HorizontalOptions="Center" HorizontalTextAlignment="Center" Padding="0, 0, 0, 12"/>
+        <Label Text="{Binding Override.FromRecord.Subject.Name}" FontSize="Medium" Style="{StaticResource LightText}" FontAttributes="Bold" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+        <Label Text="Отменить перенос пары c" Style="{StaticResource LightText}" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+        <Label Text="{Binding FromAddress}" HorizontalOptions="Center" HorizontalTextAlignment="Center" Padding="0, 0, 0, 12" Style="{StaticResource LightText}"/>
 
-        <Label IsVisible="{Binding IsInvalid}" Text="Нельзя отменить, изначальная дата уже занята" TextColor="White" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
-        <Label IsVisible="{Binding IsInvalid}" x:Name="toSubjectLabel" Text="Физика" FontSize="Medium" TextColor="White" FontAttributes="Bold" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
-        <Button IsVisible="{Binding IsValid}" Text="Отменить" CornerRadius="12" BackgroundColor="#2BBB" Clicked="Button_Clicked"/>
+        <Label IsVisible="{Binding IsInvalid}" Text="Нельзя отменить, изначальная дата уже занята" Style="{StaticResource LightText}" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+        <Label IsVisible="{Binding IsInvalid}" x:Name="toSubjectLabel" Text="Физика" FontSize="Medium" Style="{StaticResource LightText}" FontAttributes="Bold" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+        <Button IsVisible="{Binding IsValid}" Text="Отменить" CornerRadius="12" BackgroundColor="#2BBB" Clicked="Button_Clicked" Style="{StaticResource LightText}"/>
     </StackLayout>
     
 </ContentView>

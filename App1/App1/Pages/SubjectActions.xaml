@@ -4,9 +4,9 @@
              x:Class="App1.Pages.SubjectActions"
              HeightRequest="160">
 
-    <Frame HorizontalOptions="FillAndExpand" VerticalOptions="Start" BackgroundColor="#444" Margin="24, 12" Padding="0" CornerRadius="12" HasShadow="false">
+    <Frame HorizontalOptions="FillAndExpand" VerticalOptions="Start" BackgroundColor="{AppThemeBinding Dark=#444, Light=#FFF}" Margin="24, 12" Padding="0" CornerRadius="12" HasShadow="false">
         <StackLayout Spacing="1">
-            <Button Text="Перенести пару" BackgroundColor="#2000" Clicked="Button_Clicked"/>
+            <Button Text="Перенести пару" BackgroundColor="#2000" Clicked="Button_Clicked" Style="{StaticResource LightText}"/>
         </StackLayout>
     </Frame>
 

@@ -74,7 +74,7 @@
     </ContentPage.Resources>
 
     <Grid>
-        <StackLayout Spacing="0" BackgroundColor="{AppThemeBinding Dark=#111, Light=#DDD}">
+        <StackLayout Spacing="0" BackgroundColor="{AppThemeBinding Dark=#111, Light=#EEE}">
 
             <Frame BackgroundColor="{AppThemeBinding Dark=#222, Light=#FFF}" Padding="0" Margin="0">
                 <Button x:Name="weekButton" Text="Верхняя неделя" TextColor="Coral" BackgroundColor="{AppThemeBinding Dark=#1222, Light=#1CCC}" Clicked="Switch_Toggled"/>

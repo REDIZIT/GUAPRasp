@@ -26,11 +26,13 @@ namespace App1.Extensions
             }
             if (time.TotalMinutes >= 1 && time.Minutes != 0)
             {
-                string postfix = "минут";
-                if (time.Minutes == 1) postfix = "минута";
-                else if (time.Minutes >= 2 && time.Minutes <= 4) postfix = "минуты";
+                int minutes = (int)Math.Ceiling(time.Minutes + time.Seconds / 60f);
 
-                b.Append((time.Minutes >= 10 || (int)time.TotalHours == 0 ? time.Minutes.ToString() : "0" + time.Minutes) + " " + postfix);
+                string postfix = "минут";
+                if (minutes == 1) postfix = "минута";
+                else if (minutes >= 2 && minutes <= 4) postfix = "минуты";
+
+                b.Append((minutes >= 10 || (int)time.TotalHours == 0 ? minutes.ToString() : "0" + minutes) + " " + postfix);
             }
 
             return b.ToString();

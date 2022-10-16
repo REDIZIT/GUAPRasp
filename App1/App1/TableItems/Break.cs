@@ -27,11 +27,11 @@ namespace App1
                     }
                     else if (TimeLeft.TotalMilliseconds < 0)
                     {
-                        return "Фух, все пары закончены";
+                        return "Фух, хватит на сегодня знаний";
                     }
                     else
                     {
-                        return "Учеба началась, удачи :)";
+                        return "Учёба началась, удачи :)";
                     }
                 }
                 else if (IsBreaking)
