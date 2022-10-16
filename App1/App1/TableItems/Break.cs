@@ -12,7 +12,9 @@ namespace App1
         public TimeSpan EndTime { get; set; }
         public bool IsBreaking => DateTime.Now.TimeOfDay >= StartTime && DateTime.Now.TimeOfDay < EndTime;
         public TimeSpan TimeLeft => EndTime - DateTime.Now.TimeOfDay;
-        public Color BackgroundColor => BreakType == Type.BetweenSubjects && IsBreaking ? Color.FromHex("#2e8b57") : Color.FromHex("#232323");
+        public Style Style => BreakType == Type.BetweenSubjects && IsBreaking ? (Style)Application.Current.Resources["ActiveBreak"] : (Style)Application.Current.Resources["ListItem"];
+        public Style LabelStyle => BreakType == Type.BetweenSubjects && IsBreaking ? (Style)Application.Current.Resources["ActiveBreakText"] : (Style)Application.Current.Resources["LightText"];
+
         public string Text
         {
             get
@@ -52,6 +54,8 @@ namespace App1
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Text"));
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsBreaking"));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Style"));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("LabelStyle"));
         }
     }
 }

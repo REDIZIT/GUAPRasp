@@ -6,17 +6,18 @@
              xmlns:pages="clr-namespace:App1.Pages">
 
     <ContentPage.Resources>
+
         <ResourceDictionary>
             <DataTemplate x:Key="subjectTemplate">
                 <ViewCell>
                     <StackLayout Padding="0, 4">
-                        <Frame CornerRadius="14" BackgroundColor="#232323" Padding="0">
+                        <Frame CornerRadius="14" Style="{StaticResource ListItem}" Padding="0">
                             <StackLayout Spacing="0">
                                 <StackLayout Orientation="Horizontal">
                                     <StackLayout Padding="18, 12, 8, 12" MinimumWidthRequest="40">
-                                        <Label Text="{Binding StartTime, StringFormat='{0:hh\\:mm}'}" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" VerticalOptions="FillAndExpand"/>
-                                        <Label Text="{Binding Order}" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" VerticalOptions="FillAndExpand"/>
-                                        <Label Text="{Binding EndTime, StringFormat='{0:hh\\:mm}'}" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" VerticalOptions="FillAndExpand"/>
+                                        <Label Text="{Binding StartTime, StringFormat='{0:hh\\:mm}'}" Style="{StaticResource LightText}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" VerticalOptions="FillAndExpand"/>
+                                        <Label Text="{Binding Order}" Style="{StaticResource LightText}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" VerticalOptions="FillAndExpand"/>
+                                        <Label Text="{Binding EndTime, StringFormat='{0:hh\\:mm}'}" Style="{StaticResource LightText}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" VerticalOptions="FillAndExpand"/>
                                     </StackLayout>
                                     <BoxView BackgroundColor="#5a5a5a" WidthRequest="1"/>
                                     <Grid Padding="8, 12, 18, 12" RowSpacing="4" HorizontalOptions="FillAndExpand">
@@ -32,7 +33,7 @@
                                             <Label.FormattedText>
                                                 <FormattedString>
                                                     <Span TextColor="Gray" Text="{Binding Record.OverridenText}" FontSize="Small" TextDecorations="Strikethrough"/>
-                                                    <Span TextColor="White" Text="{Binding Record.Subject.Name}" FontSize="Medium" FontAttributes="Bold"/>
+                                                    <Span Style="{StaticResource LightText}" Text="{Binding Record.Subject.Name}" FontSize="Medium" FontAttributes="Bold"/>
                                                 </FormattedString>
                                             </Label.FormattedText>
                                         </Label>
@@ -40,7 +41,7 @@
                                         <Label VerticalTextAlignment="Start" Grid.Row="3" >
                                             <Label.FormattedText>
                                                 <FormattedString>
-                                                    <Span TextColor="White" FontSize="14" Text="{Binding Record.Subject.Address}" />
+                                                    <Span Style="{StaticResource LightText}" FontSize="14" Text="{Binding Record.Subject.Address}" />
                                                     <Span Text="   "/>
                                                     <Span TextColor="Gray" FontSize="12" Text="{Binding Record.Subject.Groups}" />
                                                 </FormattedString>
@@ -55,15 +56,17 @@
                     </StackLayout>
                 </ViewCell>
             </DataTemplate>
+            
             <DataTemplate x:Key="breakTemplate">
                 <ViewCell>
                     <StackLayout Padding="0, 4">
-                        <Frame CornerRadius="14" BackgroundColor="{Binding BackgroundColor}" Padding="0">
-                            <Label Text="{Binding Text}" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" HeightRequest="42"/>
+                        <Frame CornerRadius="14" Style="{Binding Style}" Padding="0">
+                            <Label Text="{Binding Text}" Style="{Binding LabelStyle}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" HeightRequest="42"/>
                         </Frame>
                     </StackLayout>
                 </ViewCell>
             </DataTemplate>
+            
             <app1:ListTemplateSelector x:Key="listTemplateSelector"
                 SubjectTemplate="{StaticResource subjectTemplate}"
                 BreakTemplate="{StaticResource breakTemplate}" />
@@ -71,9 +74,9 @@
     </ContentPage.Resources>
 
     <Grid>
-        <StackLayout BackgroundColor="#111" Spacing="0">
+        <StackLayout Spacing="0" BackgroundColor="{AppThemeBinding Dark=#111, Light=#DDD}">
 
-            <Frame BackgroundColor="#222" Padding="0" Margin="0">
+            <Frame BackgroundColor="{AppThemeBinding Dark=#222, Light=#DDD}" Padding="0" Margin="0">
                 <Button x:Name="weekButton" Text="Верхняя неделя" TextColor="Coral" BackgroundColor="#1222" Clicked="Switch_Toggled"/>
             </Frame>
 
