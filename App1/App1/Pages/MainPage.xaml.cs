@@ -164,16 +164,16 @@ namespace App1
 
         private void RefreshButtons(int day)
         {
-            Color activeColor = Color.White;
-            Color unactiveColor = Color.FromHex("#666");
+            Style selectedStyle = (Style)Application.Current.Resources["DayButtonSelected"];
+            Style defaultStyle = (Style)Application.Current.Resources["DayButton"];
 
-            b1.TextColor = day == 1 ? activeColor : unactiveColor;
-            b2.TextColor = day == 2 ? activeColor : unactiveColor;
-            b3.TextColor = day == 3 ? activeColor : unactiveColor;
-            b4.TextColor = day == 4 ? activeColor : unactiveColor;
-            b5.TextColor = day == 5 ? activeColor : unactiveColor;
-            b6.TextColor = day == 6 ? activeColor : unactiveColor;
-            b7.TextColor = day == 7 ? activeColor : unactiveColor;
+            b1.Style = day == 1 ? selectedStyle : defaultStyle;
+            b2.Style = day == 2 ? selectedStyle : defaultStyle;
+            b3.Style = day == 3 ? selectedStyle : defaultStyle;
+            b4.Style = day == 4 ? selectedStyle : defaultStyle;
+            b5.Style = day == 5 ? selectedStyle : defaultStyle;
+            b6.Style = day == 6 ? selectedStyle : defaultStyle;
+            b7.Style = day == 7 ? selectedStyle : defaultStyle;
         }
         private void RefreshToggle()
         {
@@ -191,21 +191,14 @@ namespace App1
             int totalDelta = dayOfWeekDelta + weekDaysDelta;
             DateTime selectedDate = DateTime.Now.AddDays(totalDelta);
 
-            dateLabel.Text = selectedDate.ToString("m");
+            dateLabel.Text = selectedDay == Day.Sunday ? "Вне сетки расписания" : selectedDate.ToString("m");
 
 
-            if (selectedWeek == currentWeek)
+            if (selectedWeek == currentWeek && selectedDay != Day.Sunday)
             {
-                if (selectedDay == Day.Sunday)
-                {
-                    dateLabel.Text = "Вне сетки расписания";
-                }
-                else
-                {
-                    if (dayOfWeekDelta == -1) dateLabel.Text += ", Вчера";
-                    else if (dayOfWeekDelta == 0) dateLabel.Text += ", Сегодня";
-                    else if (dayOfWeekDelta == 1) dateLabel.Text += ", Завтра";
-                }
+                if (dayOfWeekDelta == -1) dateLabel.Text += ", Вчера";
+                else if (dayOfWeekDelta == 0) dateLabel.Text += ", Сегодня";
+                else if (dayOfWeekDelta == 1) dateLabel.Text += ", Завтра";
             }
         }
         private int GetWeekOfMonth(DateTime date)

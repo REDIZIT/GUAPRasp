@@ -76,27 +76,27 @@
     <Grid>
         <StackLayout Spacing="0" BackgroundColor="{AppThemeBinding Dark=#111, Light=#DDD}">
 
-            <Frame BackgroundColor="{AppThemeBinding Dark=#222, Light=#DDD}" Padding="0" Margin="0">
-                <Button x:Name="weekButton" Text="Верхняя неделя" TextColor="Coral" BackgroundColor="#1222" Clicked="Switch_Toggled"/>
+            <Frame BackgroundColor="{AppThemeBinding Dark=#222, Light=#FFF}" Padding="0" Margin="0">
+                <Button x:Name="weekButton" Text="Верхняя неделя" TextColor="Coral" BackgroundColor="{AppThemeBinding Dark=#1222, Light=#1CCC}" Clicked="Switch_Toggled"/>
             </Frame>
 
-            <StackLayout Orientation="Horizontal" HeightRequest="48" BackgroundColor="#222" HorizontalOptions="Fill" Spacing="0">
-                <Button x:Name="b1" MinimumWidthRequest="1" BackgroundColor="#1222" Text="ПН" HorizontalOptions="FillAndExpand" Clicked="DayButtonClicked" BindingContext="1"/>
-                <BoxView WidthRequest="1" BackgroundColor="#666" VerticalOptions="Center" HeightRequest="24"/>
-                <Button x:Name="b2" MinimumWidthRequest="1" BackgroundColor="#1222" Text="ВТ" HorizontalOptions="FillAndExpand" Clicked="DayButtonClicked" BindingContext="2"/>
-                <BoxView WidthRequest="1" BackgroundColor="#666" VerticalOptions="Center" HeightRequest="24"/>
-                <Button x:Name="b3" MinimumWidthRequest="1" BackgroundColor="#1222" Text="СР" HorizontalOptions="FillAndExpand" Clicked="DayButtonClicked" BindingContext="3"/>
-                <BoxView WidthRequest="1" BackgroundColor="#666" VerticalOptions="Center" HeightRequest="24"/>
-                <Button x:Name="b4" MinimumWidthRequest="1" BackgroundColor="#1222" Text="ЧТ" HorizontalOptions="FillAndExpand" Clicked="DayButtonClicked" BindingContext="4"/>
-                <BoxView WidthRequest="1" BackgroundColor="#666" VerticalOptions="Center" HeightRequest="24"/>
-                <Button x:Name="b5" MinimumWidthRequest="1" BackgroundColor="#1222" Text="ПТ" HorizontalOptions="FillAndExpand" Clicked="DayButtonClicked" BindingContext="5"/>
-                <BoxView WidthRequest="1" BackgroundColor="#666" VerticalOptions="Center" HeightRequest="24"/>
-                <Button x:Name="b6" MinimumWidthRequest="1" BackgroundColor="#1222" Text="СБ" HorizontalOptions="FillAndExpand" Clicked="DayButtonClicked" BindingContext="6"/>
-                <BoxView WidthRequest="1" BackgroundColor="#666" VerticalOptions="Center" HeightRequest="24"/>
-                <Button x:Name="b7" MinimumWidthRequest="1" BackgroundColor="#1222" Text="-" HorizontalOptions="FillAndExpand" Clicked="DayButtonClicked" BindingContext="7"/>
+            <StackLayout Orientation="Horizontal" HeightRequest="48" BackgroundColor="{AppThemeBinding Dark=#222, Light=#FFF}" HorizontalOptions="Fill" Spacing="0">
+                <Button x:Name="b1" Style="{StaticResource DayButton}" Text="ПН" Clicked="DayButtonClicked" BindingContext="1"/>
+                <BoxView Style="{StaticResource DayButtonSeparator}"/>
+                <Button x:Name="b2" Style="{StaticResource DayButton}" Text="ВТ" Clicked="DayButtonClicked" BindingContext="2"/>
+                <BoxView Style="{StaticResource DayButtonSeparator}"/>
+                <Button x:Name="b3" Style="{StaticResource DayButton}" Text="СР" Clicked="DayButtonClicked" BindingContext="3"/>
+                <BoxView Style="{StaticResource DayButtonSeparator}"/>
+                <Button x:Name="b4" Style="{StaticResource DayButton}" Text="ЧТ" Clicked="DayButtonClicked" BindingContext="4"/>
+                <BoxView Style="{StaticResource DayButtonSeparator}"/>
+                <Button x:Name="b5" Style="{StaticResource DayButton}" Text="ПТ" Clicked="DayButtonClicked" BindingContext="5"/>
+                <BoxView Style="{StaticResource DayButtonSeparator}"/>
+                <Button x:Name="b6" Style="{StaticResource DayButton}" Text="СБ" Clicked="DayButtonClicked" BindingContext="6"/>
+                <BoxView Style="{StaticResource DayButtonSeparator}"/>
+                <Button x:Name="b7" Style="{StaticResource DayButton}" Text="-" Clicked="DayButtonClicked" BindingContext="7"/>
             </StackLayout>
 
-            <Label x:Name="dateLabel" Text="Сегодня" BackgroundColor="#222" HorizontalOptions="Fill" HeightRequest="32" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Start"/>
+            <Label x:Name="dateLabel" Style="{StaticResource LightText}" Text="Сегодня" BackgroundColor="{AppThemeBinding Dark=#222, Light=#FFF}" HorizontalOptions="Fill" HeightRequest="32" HorizontalTextAlignment="Center" VerticalTextAlignment="Start"/>
 
 
             <ListView x:Name="listView" HasUnevenRows="True" ItemsSource="{Binding AllSubjects}" 
