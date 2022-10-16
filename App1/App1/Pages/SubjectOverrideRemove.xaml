@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="App1.Pages.SubjectOverrideRemove">
+    
+    <StackLayout Padding="24, 14, 24, 24">
+        <Label Text="{Binding Override.FromRecord.Subject.Name}" FontSize="Medium" TextColor="White" FontAttributes="Bold" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+        <Label Text="Отменить перенос пары c" TextColor="White" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+        <Label Text="{Binding FromAddress}" HorizontalOptions="Center" HorizontalTextAlignment="Center" Padding="0, 0, 0, 12"/>
+
+        <Label IsVisible="{Binding IsInvalid}" Text="Нельзя отменить, изначальная дата уже занята" TextColor="White" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+        <Label IsVisible="{Binding IsInvalid}" x:Name="toSubjectLabel" Text="Физика" FontSize="Medium" TextColor="White" FontAttributes="Bold" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+        <Button IsVisible="{Binding IsValid}" Text="Отменить" CornerRadius="12" BackgroundColor="#2BBB" Clicked="Button_Clicked"/>
+    </StackLayout>
+    
+</ContentView>

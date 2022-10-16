@@ -14,27 +14,6 @@ namespace App1
             if (Application.Current.Properties.TryGetValue("settings", out object json))
             {
                 Model = JsonConvert.DeserializeObject<SettingsModel>((string)json);
-
-                Model.overrides.Clear();
-                Model.overrides.Add(new SubjectOverride()
-                {
-                    FromRecord = new TimeTableRecord()
-                    {
-                        Week = Week.Bottom,
-                        Day = Day.Saturday,
-                        Order = 6,
-                        Subject = Model.sortedRecords[Week.Bottom][Day.Saturday][6].Subject
-                    },
-                    ToRecord = new TimeTableRecord()
-                    {
-                        Week = Week.Top,
-                        Day = Day.Wednesday,
-                        Order = 1,
-                        Subject = Model.sortedRecords[Week.Top][Day.Wednesday][1].Subject
-                    }
-                });
-
-                Model.overrides.Add(new SubjectOverride(Week.Top, Day.Wednesday, 1, Week.Top, Day.Saturday, 4));
             }
             else
             {

@@ -21,7 +21,7 @@ namespace App1
                 {
                     if ((StartTime - DateTime.Now.TimeOfDay).TotalSeconds > 0)
                     {
-                        return "До начала пар " + TimeLeft.ToTimeLeft();
+                        return "До начала пар " + (StartTime - DateTime.Now.TimeOfDay).ToTimeLeft();
                     }
                     else if (TimeLeft.TotalMilliseconds < 0)
                     {

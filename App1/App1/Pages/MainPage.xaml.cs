@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace App1
@@ -55,23 +56,40 @@ namespace App1
             });
         }
 
-        public async void OnItemTapped(object sender, ItemTappedEventArgs e)
+        public void OnItemTapped(object sender, ItemTappedEventArgs e)
         {
-            if (e.Item is SubjectItem item && item.Record is TimeTableRecord record)
+            if (e.Item is SubjectItem item)
             {
-                Sheet.SheetContent = new SubjectActions(() =>
+                if (item.Record is TimeTableRecord record)
                 {
-                    Sheet.SheetContent = new SubjectMove(record, (o) =>
+                    Sheet.SheetContent = new SubjectActions(() =>
                     {
-                        Settings.Model.overrides.Add(o);
+                        Sheet.SheetContent = new SubjectMove(record, (o) =>
+                        {
+                            Settings.Model.overrides.Add(o);
+                            Settings.Save();
+
+                            Display();
+
+                            Task.Run(Sheet.CloseSheet);
+                        });
+                    });
+                    Task.Run(Sheet.OpenSheet);
+                }
+                else if (item.Record is SubjectOverride subjectOverride)
+                {
+                    Sheet.SheetContent = new SubjectOverrideRemove(subjectOverride, () =>
+                    {
+                        Settings.Model.overrides.Remove(subjectOverride);
                         Settings.Save();
 
                         Display();
 
-                        Sheet.CloseSheet();
+                        Task.Run(Sheet.CloseSheet);
                     });
-                });
-                await Sheet.OpenSheet();
+
+                    Task.Run(Sheet.OpenSheet);
+                }
             }
         }
 
