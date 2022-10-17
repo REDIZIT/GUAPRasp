@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
-using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace App1
@@ -15,8 +14,7 @@ namespace App1
     {
         public CustomList<ListViewItem> AllSubjects { get; set; } = new CustomList<ListViewItem>();
         public bool IsRefreshing => TimeTable.IsRefreshing;
-
-        private Dictionary<int, KeyValuePair<TimeSpan, TimeSpan>> timeRangeByOrder = new Dictionary<int, KeyValuePair<TimeSpan, TimeSpan>>();
+        
         private Week selectedWeek;
         private Day selectedDay;
 
@@ -33,8 +31,6 @@ namespace App1
                 Title = "Расписание " + search.valueName;
                 TimeTable.ChangeActiveGroup(search);
             }
-
-            CreateTimeRanges();
 
             selectedWeek = GetCurrentWeek();
             selectedDay = GetCurrentDay();
@@ -103,16 +99,6 @@ namespace App1
                 }
             }
         }
-
-        private void CreateTimeRanges()
-        {
-            timeRangeByOrder.Add(1, new KeyValuePair<TimeSpan, TimeSpan>(new TimeSpan(9, 30, 00), new TimeSpan(11, 00, 00)));
-            timeRangeByOrder.Add(2, new KeyValuePair<TimeSpan, TimeSpan>(new TimeSpan(11, 10, 00), new TimeSpan(12, 40, 00)));
-            timeRangeByOrder.Add(3, new KeyValuePair<TimeSpan, TimeSpan>(new TimeSpan(13, 00, 00), new TimeSpan(14, 30, 00)));
-            timeRangeByOrder.Add(4, new KeyValuePair<TimeSpan, TimeSpan>(new TimeSpan(15, 00, 00), new TimeSpan(16, 30, 00)));
-            timeRangeByOrder.Add(5, new KeyValuePair<TimeSpan, TimeSpan>(new TimeSpan(16, 40, 00), new TimeSpan(18, 10, 00)));
-            timeRangeByOrder.Add(6, new KeyValuePair<TimeSpan, TimeSpan>(new TimeSpan(18, 30, 00), new TimeSpan(20, 00, 00)));
-        }
         
         private void Display()
         {
@@ -133,8 +119,8 @@ namespace App1
 
                     AllSubjects.Add(new SubjectItem()
                     {
-                        StartTime = timeRangeByOrder[record.Order].Key,
-                        EndTime = timeRangeByOrder[record.Order].Value,
+                        StartTime = TimeRanges.GetStart(record.Order),
+                        EndTime = TimeRanges.GetEnd(record.Order),
                         Order = record.Order,
                         Record = record
                     });
@@ -150,8 +136,8 @@ namespace App1
         }
         private Break GetBeforeDayBreak(int firstOrder, int lastOrder)
         {
-            TimeSpan start = timeRangeByOrder[firstOrder].Key;
-            TimeSpan end = timeRangeByOrder[lastOrder].Value;
+            TimeSpan start = TimeRanges.GetStart(firstOrder);
+            TimeSpan end = TimeRanges.GetStart(lastOrder);
             return new Break()
             {
                 BreakType = Break.Type.BeforeStart,
@@ -161,8 +147,8 @@ namespace App1
         }
         private Break GetBreak(int before, int after)
         {
-            TimeSpan beforeEnd = timeRangeByOrder[before].Value;
-            TimeSpan afterStart = timeRangeByOrder[after].Key;
+            TimeSpan beforeEnd = TimeRanges.GetEnd(before);
+            TimeSpan afterStart = TimeRanges.GetStart(after);
 
             return new Break()
             {
