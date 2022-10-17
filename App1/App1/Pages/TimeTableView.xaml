@@ -36,7 +36,7 @@
                                                 </FormattedString>
                                             </Label.FormattedText>
                                         </Label>
-                                        <Label TextColor="Gray" Grid.Row="2" VerticalTextAlignment="Start" Text="{Binding Record.Subject.Teachers}"/>
+                                        <Label TextColor="Gray" Grid.Row="2" VerticalTextAlignment="Start" Text="{Binding Record.Teachers}"/>
                                         <Label VerticalTextAlignment="Start" Grid.Row="3" >
                                             <Label.FormattedText>
                                                 <FormattedString>

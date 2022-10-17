@@ -19,6 +19,7 @@ namespace App1
 
         public Subject Subject { get; set; }
         public string Groups => string.Join(", ", Subject.Groups);
+        public string Teachers => Subject.Teachers.Length == 0 ? "Преподаватель не назначен" : string.Join(", ", Subject.Teachers);
         public string OverridenText => "";
 
         public bool IsOverriden => Settings.Model.overrides.Any(o => o.ToRecord.Week == Week && o.ToRecord.Day == Day && o.ToRecord.Order == Order);

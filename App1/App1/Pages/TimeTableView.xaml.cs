@@ -1,14 +1,12 @@
 ﻿using App1.Extensions;
 using App1.Pages;
-using App1.Server;
 using App1.TableItems;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace App1
@@ -22,7 +20,7 @@ namespace App1
         private Week selectedWeek;
         private Day selectedDay;
 
-        public TimeTableView(string search = null)
+        public TimeTableView(SearchRequest search = null)
         {
             InitializeComponent();
 
@@ -32,7 +30,7 @@ namespace App1
             }    
             else
             {
-                Title = "Расписание " + search;
+                Title = "Расписание " + search.valueName;
                 TimeTable.ChangeActiveGroup(search);
             }
 
@@ -74,24 +72,16 @@ namespace App1
                 {
                     List<SubjectActions.Item> items = new()
                     {
-                        new SubjectActions.Item("Перенести пару", () =>
-                        {
-                            Sheet.SheetContent = new SubjectMove(record, (o) =>
-                            {
-                                Settings.Model.overrides.Add(o);
-                                Settings.Save();
-
-                                Display();
-                            });
-                        }),
+                        new SubjectActions.OpenSubjectMoveTab(record, Sheet, Display)
                     };
 
-                    foreach (var group in record.Subject.Groups)
+                    foreach (var searchItem in record.Subject.Teachers)
                     {
-                        items.Add(new SubjectActions.Item("Открыть расписание " + group, () =>
-                        {
-                            Navigation.PushAsync(new TimeTableView(group));
-                        }));
+                        items.Add(new SubjectActions.OpenTimeTable(new SearchRequest(SearchRequest.Type.Teacher, searchItem), Navigation));
+                    }
+                    foreach (var searchItem in record.Subject.Groups)
+                    {
+                        items.Add(new SubjectActions.OpenTimeTable(new SearchRequest(SearchRequest.Type.Group, searchItem), Navigation));
                     }
 
                     Sheet.SheetContent = new SubjectActions(Sheet, items);

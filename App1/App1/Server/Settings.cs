@@ -13,11 +13,19 @@ namespace App1
         {
             if (Application.Current.Properties.TryGetValue("settings", out object json))
             {
-                Model = JsonConvert.DeserializeObject<SettingsModel>((string)json);
+                try
+                {
+                    Model = JsonConvert.DeserializeObject<SettingsModel>((string)json);
+                }
+                catch
+                {
+                    Model = new();
+                    Log.ShowAlert("Failed to load settings");
+                }
             }
             else
             {
-                Model = new SettingsModel();
+                Model = new();
             }
         }
         public static void Save()

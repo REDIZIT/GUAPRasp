@@ -8,9 +8,9 @@ namespace App1.Server
 {
     public class ServerAPI
     {
-        public TimeTableRecord[] Download(string groupID)
+        public TimeTableRecord[] Download(SearchRequest search)
         {
-            var items = Download<List<Item>>("https://api.guap.ru/rasp/custom/get-sem-rasp/group" + groupID);
+            var items = Download<List<Item>>(search.GetURL());
 
             TimeTableRecord[] tableRecords = new TimeTableRecord[items.Count];
             for (int i = 0; i < items.Count; i++)
@@ -28,16 +28,20 @@ namespace App1.Server
                         Name = item.Disc,
                         Address = ShortBuild(item.Build) + " " + item.Rooms,
                         Groups = item.GroupsText.Replace(" ", "").Split(';'),
-                        Teachers = string.IsNullOrWhiteSpace(item.PrepsText) ? "Преподаватель не назначен" : string.Join("; ", item.PrepsText.Split(';').Select(s => s.Split('—')[0]))
+                        Teachers = string.IsNullOrWhiteSpace(item.PrepsText) ? new string[0] : item.PrepsText.Split(';').Select(s => s.Split('—')[0].Trim()).ToArray()
                     }
                 };
             }
 
             return tableRecords;
         }
-        public List<GroupModel> DownloadGroupModels()
+        public List<SearchItem> DownloadGroupModels()
         {
-            return Download<List<GroupModel>>("https://api.guap.ru/rasp/custom/get-sem-groups");
+            return Download<List<SearchItem>>("https://api.guap.ru/rasp/custom/get-sem-groups");
+        }
+        public List<SearchItem> DownloadTeachersModels()
+        {
+            return Download<List<SearchItem>>("https://api.guap.ru/rasp/custom/get-sem-preps");
         }
         private T Download<T>(string url)
         {
@@ -82,7 +86,7 @@ namespace App1.Server
             public string PrepsText;
             public string Dept = null;
         }
-        public class GroupModel
+        public class SearchItem
         {
             public string name;
             public string itemId;

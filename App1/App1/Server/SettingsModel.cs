@@ -8,6 +8,7 @@ namespace App1
         public WeekDayDictionary<TimeTableRecord> sortedRecords = new();
         public List<SubjectOverride> overrides = new();
         public Dictionary<string, string> groupIdByName = new();
+        public Dictionary<string, string> teacherIdByName = new();
     }
 
     public class WeekDayDictionary<T> : Dictionary<Week, Dictionary<Day, SortedList<int, T>>> where T : class

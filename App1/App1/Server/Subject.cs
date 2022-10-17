@@ -8,7 +8,7 @@ namespace App1.Server
         public string Type { get; set; }
         public string Name { get; set; }
         public string[] Groups { get; set; }
-        public string Teachers { get; set; }
+        public string[] Teachers { get; set; }
         public string Address { get; set; }
 
         [JsonIgnore] public Color TypeColor

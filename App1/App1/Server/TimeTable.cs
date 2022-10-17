@@ -12,8 +12,8 @@ namespace App1
         public static bool IsDirty { get; set; }
         public static bool IsRefreshing { get; private set; }
 
-        private static bool IsUserGroup => activeGroupName == "М251";
-        private static string activeGroupName = "М251";
+        private static bool IsUserGroup => activeSearch.valueName == "М251";
+        private static SearchRequest activeSearch = new SearchRequest(SearchRequest.Type.Group, "М251");
         private static WeekDayDictionary<TimeTableRecord> activeDictionary = Settings.Model.sortedRecords;
 
         private static ServerAPI api;
@@ -22,16 +22,16 @@ namespace App1
         {
             if (Connectivity.NetworkAccess == NetworkAccess.Internet)
             {
-                //Task.Run(DownloadChanges);
-                DownloadChanges();
+                Task.Run(DownloadChanges);
+                //DownloadChanges();
             }
 
             IsDirty = true;
         }
 
-        public static void ChangeActiveGroup(string groupName)
+        public static void ChangeActiveGroup(SearchRequest search)
         {
-            activeGroupName = groupName;
+            activeSearch = search;
             if (IsUserGroup)
             {
                 activeDictionary = Settings.Model.sortedRecords;
@@ -81,8 +81,9 @@ namespace App1
             api = new();
 
             DownloadGroups();
+            DownloadTeachers();
             DownloadTimeTable(Settings.Model.sortedRecords);
-            ChangeActiveGroup("М251");
+            ChangeActiveGroup(new SearchRequest(SearchRequest.Type.Group, "М251"));
 
             Settings.Save();
 
@@ -91,7 +92,7 @@ namespace App1
         }
         private static void DownloadGroups()
         {
-            List<ServerAPI.GroupModel> groups = api.DownloadGroupModels();
+            List<ServerAPI.SearchItem> groups = api.DownloadGroupModels();
 
             Settings.Model.groupIdByName.Clear();
             foreach (var group in groups)
@@ -99,9 +100,19 @@ namespace App1
                 Settings.Model.groupIdByName.Add(group.name, group.itemId);
             }
         }
+        private static void DownloadTeachers()
+        {
+            List<ServerAPI.SearchItem> teachers = api.DownloadTeachersModels();
+
+            Settings.Model.teacherIdByName.Clear();
+            foreach (var teacher in teachers)
+            {
+                Settings.Model.teacherIdByName.Add(teacher.name.Split('—')[0].Trim(), teacher.itemId);
+            }
+        }
         private static void DownloadTimeTable(WeekDayDictionary<TimeTableRecord> dictionaryToFill)
         {
-            TimeTableRecord[] records = api.Download(Settings.Model.groupIdByName[activeGroupName]);
+            TimeTableRecord[] records = api.Download(activeSearch);
 
             dictionaryToFill.Clear();
 
