@@ -24,9 +24,14 @@ namespace App1.Extensions
 
                 b.Append(time.Hours + " " + postFix + " ");
             }
-            if (time.TotalMinutes >= 1 && time.Minutes != 0)
+            if (time.Minutes != 0 || (int)time.TotalHours == 0)
             {
                 int minutes = (int)Math.Ceiling(time.Minutes + time.Seconds / 60f);
+
+                if (time.TotalSeconds <= 1)
+                {
+                    minutes = 1;
+                }
 
                 string postfix = "минут";
                 if (minutes == 1) postfix = "минута";
