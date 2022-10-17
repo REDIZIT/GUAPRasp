@@ -12,9 +12,9 @@ namespace App1
             InitializeComponent();
 
             Settings.Load();
-            TimeTable.Download();
+            TimeTable.PullChanges();
 
-            MainPage = new MainPage();
+            MainPage = new NavigationPage(new TimeTableView());
         }
 
         protected override void OnStart()

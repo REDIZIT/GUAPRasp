@@ -7,6 +7,7 @@
     <Frame HorizontalOptions="FillAndExpand" VerticalOptions="Start" BackgroundColor="{AppThemeBinding Dark=#444, Light=#FFF}" Margin="24, 12" Padding="0" CornerRadius="12" HasShadow="false">
         <StackLayout Spacing="1">
             <Button Text="Перенести пару" BackgroundColor="#2000" Clicked="Button_Clicked" Style="{StaticResource LightText}"/>
+            <Button Text="Открыть расписание М250" BackgroundColor="#2000" Clicked="OpenTimeTableClicked" Style="{StaticResource LightText}" BindingContext="м250"/>
         </StackLayout>
     </Frame>
 

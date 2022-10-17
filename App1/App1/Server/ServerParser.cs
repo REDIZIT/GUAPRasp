@@ -1,18 +1,16 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 
 namespace App1.Server
 {
-    public class ServerParser
+    public class ServerAPI
     {
-        public TimeTableRecord[] Download()
+        public TimeTableRecord[] Download(string groupID)
         {
-            string url = "https://api.guap.ru/rasp/custom/get-sem-rasp/group431";
-            string json = new WebClient().DownloadString(url);
-
-            var items = JsonConvert.DeserializeObject<List<Item>>(json);
+            var items = Download<List<Item>>("https://api.guap.ru/rasp/custom/get-sem-rasp/group" + groupID);
 
             TimeTableRecord[] tableRecords = new TimeTableRecord[items.Count];
             for (int i = 0; i < items.Count; i++)
@@ -36,6 +34,15 @@ namespace App1.Server
             }
 
             return tableRecords;
+        }
+        public List<GroupModel> DownloadGroupModels()
+        {
+            return Download<List<GroupModel>>("https://api.guap.ru/rasp/custom/get-sem-groups");
+        }
+        private T Download<T>(string url)
+        {
+            string json = new WebClient().DownloadString(url);
+            return JsonConvert.DeserializeObject<T>(json);
         }
         private string TranslateType(string shortType)
         {
@@ -74,6 +81,11 @@ namespace App1.Server
             public string Preps;
             public string PrepsText;
             public string Dept = null;
+        }
+        public class GroupModel
+        {
+            public string name;
+            public string itemId;
         }
     }
 }

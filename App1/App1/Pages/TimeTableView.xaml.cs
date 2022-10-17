@@ -13,7 +13,7 @@ using Xamarin.Forms;
 
 namespace App1
 {
-    public partial class MainPage : ContentPage
+    public partial class TimeTableView : ContentPage
     {
         public CustomList<ListViewItem> AllSubjects { get; set; } = new CustomList<ListViewItem>();
         public bool IsRefreshing => TimeTable.IsRefreshing;
@@ -22,9 +22,19 @@ namespace App1
         private Week selectedWeek;
         private Day selectedDay;
 
-        public MainPage()
+        public TimeTableView(string search = null)
         {
             InitializeComponent();
+
+            if (search == null)
+            {
+                Title = "Моё расписание";
+            }    
+            else
+            {
+                Title = "Расписание " + search;
+                TimeTable.ChangeActiveGroup(search);
+            }
 
             CreateTimeRanges();
 
@@ -62,7 +72,7 @@ namespace App1
             {
                 if (item.Record is TimeTableRecord record)
                 {
-                    Sheet.SheetContent = new SubjectActions(() =>
+                    Sheet.SheetContent = new SubjectActions(Sheet, () =>
                     {
                         Sheet.SheetContent = new SubjectMove(record, (o) =>
                         {
@@ -70,8 +80,6 @@ namespace App1
                             Settings.Save();
 
                             Display();
-
-                            Task.Run(Sheet.CloseSheet);
                         });
                     });
                     Task.Run(Sheet.OpenSheet);
