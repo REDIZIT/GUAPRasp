@@ -2,12 +2,10 @@
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="App1.Pages.SubjectActions"
-             HeightRequest="160">
+             HeightRequest="300">
 
     <Frame HorizontalOptions="FillAndExpand" VerticalOptions="Start" BackgroundColor="{AppThemeBinding Dark=#444, Light=#FFF}" Margin="24, 12" Padding="0" CornerRadius="12" HasShadow="false">
-        <StackLayout Spacing="1">
-            <Button Text="Перенести пару" BackgroundColor="#2000" Clicked="Button_Clicked" Style="{StaticResource LightText}"/>
-            <Button Text="Открыть расписание М250" BackgroundColor="#2000" Clicked="OpenTimeTableClicked" Style="{StaticResource LightText}" BindingContext="м250"/>
+        <StackLayout x:Name="stack" Spacing="1">
         </StackLayout>
     </Frame>
 

@@ -1,5 +1,6 @@
-﻿using App1.Server;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -9,29 +10,45 @@ namespace App1.Pages
     public partial class SubjectActions : ContentView
     {
         private BottomSheet sheet;
-        private Action onClick;
 
-        public SubjectActions(BottomSheet sheet, Action onClick)
+        public SubjectActions(BottomSheet sheet, List<Item> items)
         {
             InitializeComponent();
-
             this.sheet = sheet;
-            this.onClick = onClick;
+
+            foreach (var item in items)
+            {
+                Button button = new Button()
+                {
+                    BackgroundColor = Color.FromHex("#2000"),
+                    Style = (Style)Application.Current.Resources["LightText"],
+                    Text = item.title,
+                    HeightRequest = 52
+                };
+                button.Clicked += async (s, e) => await OnItemClicked(item);
+
+                stack.Children.Add(button);
+            }
+
+            HeightRequest = 80 + items.Count * 52;
         }
 
-        private async void Button_Clicked(object sender, EventArgs e)
+        private async Task OnItemClicked(Item item)
         {
+            item.onClick?.Invoke();
             await sheet.CloseSheet();
-            onClick?.Invoke();
         }
-        private async void OpenTimeTableClicked(object sender, EventArgs e)
+
+        public class Item
         {
-            await sheet.CloseSheet();
+            public string title;
+            public Action onClick;
 
-            new ServerAPI().DownloadGroupModels();
-
-            Button button = (Button)sender;
-            await Navigation.PushAsync(new TimeTableView((string)button.BindingContext));
+            public Item(string title, Action onClick)
+            {
+                this.title = title;
+                this.onClick = onClick; 
+            }
         }
     }
 }

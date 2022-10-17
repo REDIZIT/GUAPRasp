@@ -1,6 +1,5 @@
 ﻿using App1.Server;
 using System.Linq;
-using static Android.Graphics.ColorSpace;
 
 namespace App1
 {
@@ -19,6 +18,7 @@ namespace App1
         public int Order { get; set; }
 
         public Subject Subject { get; set; }
+        public string Groups => string.Join(", ", Subject.Groups);
         public string OverridenText => "";
 
         public bool IsOverriden => Settings.Model.overrides.Any(o => o.ToRecord.Week == Week && o.ToRecord.Day == Day && o.ToRecord.Order == Order);

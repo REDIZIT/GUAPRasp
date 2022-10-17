@@ -12,9 +12,9 @@ namespace App1
         public static bool IsDirty { get; set; }
         public static bool IsRefreshing { get; private set; }
 
-        private static bool IsUserGroup => activeGroupName == "м251";
-        private static string activeGroupName = "м251";
-        private static WeekDayDictionary<TimeTableRecord> activeDictionary;
+        private static bool IsUserGroup => activeGroupName == "М251";
+        private static string activeGroupName = "М251";
+        private static WeekDayDictionary<TimeTableRecord> activeDictionary = Settings.Model.sortedRecords;
 
         private static ServerAPI api;
 
@@ -22,7 +22,8 @@ namespace App1
         {
             if (Connectivity.NetworkAccess == NetworkAccess.Internet)
             {
-                Task.Run(DownloadChanges);
+                //Task.Run(DownloadChanges);
+                DownloadChanges();
             }
 
             IsDirty = true;
@@ -81,7 +82,7 @@ namespace App1
 
             DownloadGroups();
             DownloadTimeTable(Settings.Model.sortedRecords);
-            ChangeActiveGroup("м251");
+            ChangeActiveGroup("М251");
 
             Settings.Save();
 
@@ -95,13 +96,11 @@ namespace App1
             Settings.Model.groupIdByName.Clear();
             foreach (var group in groups)
             {
-                Settings.Model.groupIdByName.Add(group.name.ToLower(), group.itemId);
+                Settings.Model.groupIdByName.Add(group.name, group.itemId);
             }
         }
         private static void DownloadTimeTable(WeekDayDictionary<TimeTableRecord> dictionaryToFill)
         {
-            Log.ShowAlert("Download " + activeGroupName);
-
             TimeTableRecord[] records = api.Download(Settings.Model.groupIdByName[activeGroupName]);
 
             dictionaryToFill.Clear();

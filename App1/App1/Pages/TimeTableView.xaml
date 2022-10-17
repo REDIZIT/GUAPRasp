@@ -42,7 +42,7 @@
                                                 <FormattedString>
                                                     <Span Style="{StaticResource LightText}" FontSize="14" Text="{Binding Record.Subject.Address}" />
                                                     <Span Text="   "/>
-                                                    <Span TextColor="Gray" FontSize="12" Text="{Binding Record.Subject.Groups}" />
+                                                    <Span TextColor="Gray" FontSize="12" Text="{Binding Record.Groups}" />
                                                 </FormattedString>
                                             </Label.FormattedText>
                                         </Label>

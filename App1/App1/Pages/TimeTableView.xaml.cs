@@ -66,25 +66,38 @@ namespace App1
             });
         }
 
-        public void OnItemTapped(object sender, ItemTappedEventArgs e)
+        public async void OnItemTapped(object sender, ItemTappedEventArgs e)
         {
-            if (e.Item is SubjectItem item)
+            if (e.Item is SubjectItem subjectItem)
             {
-                if (item.Record is TimeTableRecord record)
+                if (subjectItem.Record is TimeTableRecord record)
                 {
-                    Sheet.SheetContent = new SubjectActions(Sheet, () =>
+                    List<SubjectActions.Item> items = new()
                     {
-                        Sheet.SheetContent = new SubjectMove(record, (o) =>
+                        new SubjectActions.Item("Перенести пару", () =>
                         {
-                            Settings.Model.overrides.Add(o);
-                            Settings.Save();
+                            Sheet.SheetContent = new SubjectMove(record, (o) =>
+                            {
+                                Settings.Model.overrides.Add(o);
+                                Settings.Save();
 
-                            Display();
-                        });
-                    });
-                    Task.Run(Sheet.OpenSheet);
+                                Display();
+                            });
+                        }),
+                    };
+
+                    foreach (var group in record.Subject.Groups)
+                    {
+                        items.Add(new SubjectActions.Item("Открыть расписание " + group, () =>
+                        {
+                            Navigation.PushAsync(new TimeTableView(group));
+                        }));
+                    }
+
+                    Sheet.SheetContent = new SubjectActions(Sheet, items);
+                    await Sheet.OpenSheet();
                 }
-                else if (item.Record is SubjectOverride subjectOverride)
+                else if (subjectItem.Record is SubjectOverride subjectOverride)
                 {
                     Sheet.SheetContent = new SubjectOverrideRemove(subjectOverride, () =>
                     {
@@ -96,7 +109,7 @@ namespace App1
                         Task.Run(Sheet.CloseSheet);
                     });
 
-                    Task.Run(Sheet.OpenSheet);
+                    await Sheet.OpenSheet();
                 }
             }
         }

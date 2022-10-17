@@ -27,7 +27,7 @@ namespace App1.Server
                         Type = TranslateType(item.Type),
                         Name = item.Disc,
                         Address = ShortBuild(item.Build) + " " + item.Rooms,
-                        Groups = item.GroupsText.Replace(";", ","),
+                        Groups = item.GroupsText.Replace(" ", "").Split(';'),
                         Teachers = string.IsNullOrWhiteSpace(item.PrepsText) ? "Преподаватель не назначен" : string.Join("; ", item.PrepsText.Split(';').Select(s => s.Split('—')[0]))
                     }
                 };
