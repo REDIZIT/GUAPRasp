@@ -16,7 +16,7 @@ namespace App1.Pages
 
         private Action onClicked;
 
-        public SubjectOverrideRemove(SubjectOverride subjectOverride, Action onClicked)
+        public SubjectOverrideRemove(TimeTable timeTable, SubjectOverride subjectOverride, Action onClicked)
         {
             Override = subjectOverride;
             this.onClicked = onClicked;
@@ -26,7 +26,7 @@ namespace App1.Pages
 
             InitializeComponent();
 
-            var occopiedRecord = TimeTable.GetRecords(Override.FromRecord.Week, Override.FromRecord.Day).FirstOrDefault(r => r.IsSameTime(Override.FromRecord));
+            var occopiedRecord = timeTable.GetRecords(Override.FromRecord.Week, Override.FromRecord.Day).FirstOrDefault(r => r.IsSameTime(Override.FromRecord));
 
             if (occopiedRecord != null)
             {

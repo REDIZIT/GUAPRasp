@@ -1,48 +1,36 @@
-﻿using App1.Extensions;
-using App1.Server;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Xamarin.Essentials;
 
 namespace App1
 {
-    public static class TimeTable
+    public class TimeTable
     {
-        public static bool IsDirty { get; set; }
-        public static bool IsRefreshing { get; private set; }
+        public bool IsDirty { get; set; }
+        public bool IsRefreshing { get; private set; }
+        public bool IsUserGroup => search.valueName == "М251";
 
-        private static bool IsUserGroup => activeSearch.valueName == "М251";
-        private static SearchRequest activeSearch = new SearchRequest(SearchRequest.Type.Group, "М251");
-        private static WeekDayDictionary<TimeTableRecord> activeDictionary = Settings.Model.sortedRecords;
+        private SearchRequest search;
+        private WeekDayDictionary<TimeTableRecord> weekDayDictionary;
 
-        private static ServerAPI api;
+        
 
-        public static void PullChanges()
+        public TimeTable(SearchRequest search)
         {
-            if (Connectivity.NetworkAccess == NetworkAccess.Internet)
-            {
-                Task.Run(DownloadChanges);
-                //DownloadChanges();
-            }
-
-            IsDirty = true;
-        }
-
-        public static void ChangeActiveGroup(SearchRequest search)
-        {
-            activeSearch = search;
+            this.search = search;
             if (IsUserGroup)
             {
-                activeDictionary = Settings.Model.sortedRecords;
+                weekDayDictionary = Settings.Model.sortedRecords;
             }
             else
             {
-                activeDictionary = new();
-                DownloadTimeTable(activeDictionary);
+                weekDayDictionary = new();
+                CacheManager.DownloadTimeTable(search, weekDayDictionary);
             }
         }
-        public static IEnumerable<ITimeTableRecord> GetRecords(Week week, Day day)
+
+        
+
+        public IEnumerable<ITimeTableRecord> GetRecords(Week week, Day day)
         {
             List<ITimeTableRecord> records = GetRecordsFor(week, day);
 
@@ -62,66 +50,16 @@ namespace App1
 
             return records.OrderBy(r => r.Order);
         }
-        private static List<ITimeTableRecord> GetRecordsFor(Week week, Day day)
+        private List<ITimeTableRecord> GetRecordsFor(Week week, Day day)
         {
             List<ITimeTableRecord> ls = new();
 
-            if (activeDictionary.TryGetValue(week, out var days) && days.TryGetValue(day, out var dictRecords))
+            if (weekDayDictionary.TryGetValue(week, out var days) && days.TryGetValue(day, out var dictRecords))
             {
                 ls.AddRange(dictRecords.Values);
             }
 
             return ls;
-        }
-
-        private static void DownloadChanges()
-        {
-            IsRefreshing = true;
-
-            api = new();
-
-            DownloadGroups();
-            DownloadTeachers();
-            DownloadTimeTable(Settings.Model.sortedRecords);
-            ChangeActiveGroup(new SearchRequest(SearchRequest.Type.Group, "М251"));
-
-            Settings.Save();
-
-            IsRefreshing = false;
-            IsDirty = true;
-        }
-        private static void DownloadGroups()
-        {
-            List<ServerAPI.SearchItem> groups = api.DownloadGroupModels();
-
-            Settings.Model.groupIdByName.Clear();
-            foreach (var group in groups)
-            {
-                Settings.Model.groupIdByName.Add(group.name, group.itemId);
-            }
-        }
-        private static void DownloadTeachers()
-        {
-            List<ServerAPI.SearchItem> teachers = api.DownloadTeachersModels();
-
-            Settings.Model.teacherIdByName.Clear();
-            foreach (var teacher in teachers)
-            {
-                Settings.Model.teacherIdByName.Add(teacher.name.Split('—')[0].Trim(), teacher.itemId);
-            }
-        }
-        private static void DownloadTimeTable(WeekDayDictionary<TimeTableRecord> dictionaryToFill)
-        {
-            TimeTableRecord[] records = api.Download(activeSearch);
-
-            dictionaryToFill.Clear();
-
-            foreach (TimeTableRecord record in records)
-            {
-                var dayDict = dictionaryToFill.GetOrCreate(record.Week);
-                var list = dayDict.GetOrCreate(record.Day);
-                list.Add(record.Order, record);
-            }
         }
     }
 }

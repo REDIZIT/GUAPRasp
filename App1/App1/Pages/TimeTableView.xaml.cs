@@ -13,23 +13,24 @@ namespace App1
     public partial class TimeTableView : ContentPage
     {
         public CustomList<ListViewItem> AllSubjects { get; set; } = new CustomList<ListViewItem>();
-        public bool IsRefreshing => TimeTable.IsRefreshing;
-        
+        public bool IsRefreshing => timeTable.IsRefreshing;
+
+        private TimeTable timeTable;
         private Week selectedWeek;
         private Day selectedDay;
 
-        public TimeTableView(SearchRequest search = null)
+        public TimeTableView(SearchRequest search)
         {
             InitializeComponent();
 
-            if (search == null)
+            timeTable = new TimeTable(search);
+            if (timeTable.IsUserGroup)
             {
                 Title = "Моё расписание";
             }    
             else
             {
                 Title = "Расписание " + search.valueName;
-                TimeTable.ChangeActiveGroup(search);
             }
 
             selectedWeek = GetCurrentWeek();
@@ -43,15 +44,6 @@ namespace App1
 
             Device.StartTimer(TimeSpan.FromSeconds(1), () =>
             {
-                if (TimeTable.IsDirty)
-                {
-                    AllSubjects.Clear();
-                    Display();
-                    TimeTable.IsDirty = false;
-
-                    OnPropertyChanged(nameof(IsRefreshing));
-                }
-
                 foreach (var item in AllSubjects)
                 {
                     item.OnUpdate();
@@ -68,7 +60,7 @@ namespace App1
                 {
                     List<SubjectActions.Item> items = new()
                     {
-                        new SubjectActions.OpenSubjectMoveTab(record, Sheet, Display)
+                        new SubjectActions.OpenSubjectMoveTab(timeTable, record, Sheet, Display)
                     };
 
                     foreach (var searchItem in record.Subject.Teachers)
@@ -85,7 +77,7 @@ namespace App1
                 }
                 else if (subjectItem.Record is SubjectOverride subjectOverride)
                 {
-                    Sheet.SheetContent = new SubjectOverrideRemove(subjectOverride, () =>
+                    Sheet.SheetContent = new SubjectOverrideRemove(timeTable, subjectOverride, () =>
                     {
                         Settings.Model.overrides.Remove(subjectOverride);
                         Settings.Save();
@@ -105,7 +97,7 @@ namespace App1
             RefreshButtons((int)selectedDay);
             RefreshDate();
 
-            var records = TimeTable.GetRecords(selectedWeek, selectedDay).ToArray();
+            var records = timeTable.GetRecords(selectedWeek, selectedDay).ToArray();
 
             AllSubjects.Clear();
 

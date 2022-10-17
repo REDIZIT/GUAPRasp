@@ -48,12 +48,14 @@ namespace App1.Pages
         }
         public class OpenSubjectMoveTab : Item
         {
+            private readonly TimeTable timeTable;
             private readonly TimeTableRecord record;
             private readonly BottomSheet sheet;
             private readonly Action displayMethod;
 
-            public OpenSubjectMoveTab(TimeTableRecord record, BottomSheet sheet, Action displayMethod)
+            public OpenSubjectMoveTab(TimeTable timeTable, TimeTableRecord record, BottomSheet sheet, Action displayMethod)
             {
+                this.timeTable = timeTable;
                 this.record = record;
                 this.sheet = sheet;
                 this.displayMethod = displayMethod;
@@ -62,7 +64,7 @@ namespace App1.Pages
 
             public override async Task Click()
             {
-                sheet.SheetContent = new SubjectMove(record, (o) =>
+                sheet.SheetContent = new SubjectMove(timeTable, record, (o) =>
                 {
                     Settings.Model.overrides.Add(o);
                     Settings.Save();

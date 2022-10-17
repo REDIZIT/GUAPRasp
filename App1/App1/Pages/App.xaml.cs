@@ -1,7 +1,4 @@
-﻿using App1.Pages;
-using System;
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
+﻿using Xamarin.Forms;
 
 namespace App1
 {
@@ -12,9 +9,11 @@ namespace App1
             InitializeComponent();
 
             Settings.Load();
-            TimeTable.PullChanges();
 
-            MainPage = new NavigationPage(new TimeTableView());
+            SearchRequest homeSearch = new SearchRequest(SearchRequest.Type.Group, "М251");
+            CacheManager.PullChanges(homeSearch);
+
+            MainPage = new NavigationPage(new TimeTableView(homeSearch));
         }
 
         protected override void OnStart()

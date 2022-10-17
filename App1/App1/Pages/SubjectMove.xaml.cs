@@ -14,15 +14,17 @@ namespace App1.Pages
         public bool IsValid { get; private set; }
         public bool IsInvalid => IsValid == false;
 
+        private TimeTable timeTable;
         private Action<SubjectOverride> onClicked;
 
         private Week toWeek;
         private Day toDay;
         private int toOrder;
 
-        public SubjectMove(TimeTableRecord fromRecord, Action<SubjectOverride> onClicked)
+        public SubjectMove(TimeTable timeTable, TimeTableRecord fromRecord, Action<SubjectOverride> onClicked)
         {
             FromRecord = fromRecord;
+            this.timeTable = timeTable;
             this.onClicked = onClicked;
 
             BindingContext = this;
@@ -36,7 +38,7 @@ namespace App1.Pages
             toDay = (Day)(dayPicker.SelectedIndex + 1);
             toOrder = orderPicker.SelectedIndex + 1;
 
-            Subject toSubject = TimeTable.GetRecords(toWeek, toDay).FirstOrDefault(r => r.Order == toOrder)?.Subject;
+            Subject toSubject = timeTable.GetRecords(toWeek, toDay).FirstOrDefault(r => r.Order == toOrder)?.Subject;
 
             if (toSubject != null)
             {
