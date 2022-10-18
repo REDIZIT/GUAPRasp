@@ -40,7 +40,7 @@
                                         <Label VerticalTextAlignment="Start" Grid.Row="3" >
                                             <Label.FormattedText>
                                                 <FormattedString>
-                                                    <Span Style="{StaticResource LightText}" FontSize="14" Text="{Binding Record.Subject.Address}" />
+                                                    <Span Style="{StaticResource LightText}" FontSize="14" FontAttributes="Bold" Text="{Binding Record.Subject.Address}" />
                                                     <Span Text="   "/>
                                                     <Span TextColor="Gray" FontSize="12" Text="{Binding Record.Groups}" />
                                                 </FormattedString>
@@ -91,8 +91,6 @@
                 <Button x:Name="b5" Style="{StaticResource DayButton}" Text="ПТ" Clicked="DayButtonClicked" BindingContext="5"/>
                 <BoxView Style="{StaticResource DayButtonSeparator}"/>
                 <Button x:Name="b6" Style="{StaticResource DayButton}" Text="СБ" Clicked="DayButtonClicked" BindingContext="6"/>
-                <BoxView Style="{StaticResource DayButtonSeparator}"/>
-                <Button x:Name="b7" Style="{StaticResource DayButton}" Text="-" Clicked="DayButtonClicked" BindingContext="7"/>
             </StackLayout>
 
             <Label x:Name="dateLabel" Style="{StaticResource LightText}" Text="Сегодня" BackgroundColor="{AppThemeBinding Dark=#222, Light=#FFF}" HorizontalOptions="Fill" HeightRequest="32" HorizontalTextAlignment="Center" VerticalTextAlignment="Start"/>

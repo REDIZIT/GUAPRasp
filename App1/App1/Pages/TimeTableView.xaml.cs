@@ -162,7 +162,6 @@ namespace App1
             b4.Style = day == 4 ? selectedStyle : defaultStyle;
             b5.Style = day == 5 ? selectedStyle : defaultStyle;
             b6.Style = day == 6 ? selectedStyle : defaultStyle;
-            b7.Style = day == 7 ? selectedStyle : defaultStyle;
         }
         private void RefreshToggle()
         {
