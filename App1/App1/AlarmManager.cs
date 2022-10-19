@@ -15,7 +15,7 @@ namespace App1
             if (Instance == null)
             {
                 Instance = new AlarmManager();
-                Instance.alarms.Add(new AlarmRecord(DateTime.Now.AddSeconds(15)));
+                Instance.alarms.Add(new AlarmRecord(DateTime.Now.AddSeconds(15), 0));
             }
         }
 
@@ -24,9 +24,9 @@ namespace App1
             record = alarms.FirstOrDefault(a => a.state == AlarmRecord.State.Armed && DateTime.Now >= a.nextRealarmTime);
             return record != null;
         }
-        public AlarmRecord GetTimeByTime(string time)
+        public AlarmRecord GetTimerByID(int id)
         {
-            return alarms.First(a => a.nextRealarmTime.ToString() == time);
+            return alarms.First(a => a.id == id);
         }
     }
 }

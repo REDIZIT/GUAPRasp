@@ -53,7 +53,7 @@ namespace InApp
                     alarm.state = AlarmRecord.State.WaitingUserResponse;
 
                     var intent = new Intent(this, typeof(MainActivity));
-                    intent = intent.SetFlags(ActivityFlags.NewTask).PutExtra("TimerExecutor", alarm.nextRealarmTime.ToString());
+                    intent = intent.SetFlags(ActivityFlags.NewTask).PutExtra("TimerExecutor", alarm.id);
                     StartActivity(intent);
                 }
                 return true;

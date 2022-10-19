@@ -2,13 +2,34 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="App1.Pages.TimerPage">
+
+    <ContentPage.Resources>
+        <DataTemplate x:Key="charTemplate">
+            <Frame BackgroundColor="Gray" HeightRequest="{Binding Scale}" WidthRequest="{Binding Scale}" VerticalOptions="Center" CornerRadius="12" Padding="2" BindingContext="{Binding}">
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="CharClicked"/>
+                </Frame.GestureRecognizers>
+                <Frame BackgroundColor="{Binding BackgroundColor}" CornerRadius="10" Padding="0">
+                    <Label Text="{Binding Char}" TextColor="White" FontSize="{Binding FontSize}" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+                </Frame>
+            </Frame>
+        </DataTemplate>
+    </ContentPage.Resources>
+    
     <ContentPage.Content>
         <StackLayout>
-            <Label x:Name="label" Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-            <Button Text="Skip" Clicked="SkipClicked"/>
-            <Button Text="Disarm" Clicked="DisarmClicked"/>
+            <StackLayout Spacing="12">
+                <Button Text="Skip" Clicked="SkipClicked"/>
+                <Button Text="Disarm" Clicked="DisarmClicked"/>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center" BindableLayout.ItemsSource="{Binding WordChars}" BindableLayout.ItemTemplate="{StaticResource charTemplate}" VerticalOptions="Center">
+
+                </StackLayout>
+                <BoxView BackgroundColor="#666" HeightRequest="1" ScaleX="0.75"/>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center" BindableLayout.ItemsSource="{Binding Chars}" BindableLayout.ItemTemplate="{StaticResource charTemplate}" VerticalOptions="Center">
+
+                </StackLayout>
+            </StackLayout>
+           
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
