@@ -8,7 +8,7 @@ namespace App1
     {
         public App(int arg, Activity activity)
         {
-            InitializeComponent();
+            //InitializeComponent();
 
 
 
@@ -19,7 +19,7 @@ namespace App1
 
             AlarmManager.Init();
 
-            //if (string.IsNullOrEmpty(arg))
+            //if (arg == -1)
             //{
             //    MainPage = new NavigationPage(new TimeTableView(homeSearch));
             //}

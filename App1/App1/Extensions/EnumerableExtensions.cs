@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace App1.Extensions
 {
     public static class EnumerableExtensions
     {
+        private static Random random = new();
+
         public static TValue GetOrCreate<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey key) where TValue : new()
         {
             if (dict.ContainsKey(key) == false)
@@ -12,6 +15,14 @@ namespace App1.Extensions
                 dict.Add(key, new TValue());
             }
             return dict[key];
+        }
+        public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> ls)
+        {
+            return ls.OrderBy(l => random.Next());
+        }
+        public static T Random<T>(this IEnumerable<T> ls)
+        {
+            return ls.ElementAt(random.Next(0, ls.Count()));
         }
     }
     public static class DateExtensions

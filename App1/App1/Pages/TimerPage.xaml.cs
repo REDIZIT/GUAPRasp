@@ -1,8 +1,11 @@
 ﻿using Android.App;
+using App1.Extensions;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -15,7 +18,7 @@ namespace App1.Pages
         public ObservableCollection<Letter> Chars { get; private set; }
 
         private int index;
-        private string word = "хуууй";
+        private string word;
         private AlarmRecord alarm;
         private Activity activity;
 
@@ -26,6 +29,14 @@ namespace App1.Pages
             this.alarm = AlarmManager.Instance.GetTimerByID(alarm);
             this.activity = activity;
 
+            var assembly = Assembly.GetExecutingAssembly();
+            var names = assembly.GetManifestResourceNames();
+
+            using (Stream stream = assembly.GetManifestResourceStream("App1.WordsLib.txt"))
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                word = reader.ReadToEnd().Split('\n').Random().Trim();
+            }
 
             WordChars = new();
             foreach (var item in word)
@@ -35,7 +46,7 @@ namespace App1.Pages
 
 
             Chars = new();
-            foreach (var item in word.ToCharArray().Distinct())
+            foreach (var item in word.ToCharArray().Distinct().Shuffle())
             {
                 Chars.Add(new Letter(item, 42));
             }
