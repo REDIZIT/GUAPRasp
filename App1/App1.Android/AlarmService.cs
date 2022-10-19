@@ -21,9 +21,9 @@ namespace InApp
         {
             Instance = this;
 
-            string NOTIFICATION_CHANNEL_ID = "no.jore.hajk";
-            string channelName = "test app service";
-            NotificationChannel chan = new NotificationChannel(NOTIFICATION_CHANNEL_ID, channelName, NotificationImportance.None)
+            string NOTIFICATION_CHANNEL_ID = "com.REDIZIT.GUAPTime";
+            string channelName = "Clock serivce";
+            NotificationChannel chan = new NotificationChannel(NOTIFICATION_CHANNEL_ID, channelName, NotificationImportance.Min)
             {
                 LockscreenVisibility = NotificationVisibility.Public
             };
@@ -46,13 +46,16 @@ namespace InApp
             StartForeground(1, notification);
 
 
-            targetDate = DateTime.Now.AddSeconds(10);
+            targetDate = DateTime.Now.AddSeconds(15);
 
             Device.StartTimer(new System.TimeSpan(0, 0, 1), () =>
             {
                 if (DateTime.Now >= targetDate)
                 {
                     Log.ShowAlert("Alert by time");
+                    var intent = new Intent(this, typeof(MainActivity));
+                    intent = intent.SetFlags(ActivityFlags.NewTask);
+                    StartActivity(intent);
                     return false;
                 }
                 return true;
@@ -77,7 +80,7 @@ namespace InApp
             return StartCommandResult.Sticky;
         }
         
-        PendingIntent BuildIntentToShowMainActivity()
+        private PendingIntent BuildIntentToShowMainActivity()
         {
             var notificationIntent = new Intent(this, typeof(MainActivity));
             //notificationIntent.SetAction(Constants.ACTION_MAIN_ACTIVITY);
