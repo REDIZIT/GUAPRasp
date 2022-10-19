@@ -14,6 +14,8 @@ namespace InApp
     {
         public static AlarmService Instance { get; private set; }
 
+        public bool IsTriggered { get; private set; }
+
         private Notification notification;
         private DateTime targetDate;
 
@@ -48,13 +50,14 @@ namespace InApp
 
             targetDate = DateTime.Now.AddSeconds(15);
 
-            Device.StartTimer(new System.TimeSpan(0, 0, 1), () =>
+            Device.StartTimer(new TimeSpan(0, 0, 1), () =>
             {
                 if (DateTime.Now >= targetDate)
                 {
-                    Log.ShowAlert("Alert by time");
+                    IsTriggered = true;
+
                     var intent = new Intent(this, typeof(MainActivity));
-                    intent = intent.SetFlags(ActivityFlags.NewTask);
+                    intent = intent.SetFlags(ActivityFlags.NewTask).PutExtra("TimerExecutor", targetDate.ToString());
                     StartActivity(intent);
                     return false;
                 }

@@ -3,6 +3,7 @@ using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
+using Android.Views;
 using InApp;
 using Xamarin.Forms;
 
@@ -21,7 +22,7 @@ namespace App1.Droid
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             Forms.Init(this, savedInstanceState);
-            LoadApplication(new App());
+            LoadApplication(new App(Intent.GetStringExtra("TimerExecutor")));
 
             StartAlarm();
         }
@@ -37,6 +38,14 @@ namespace App1.Droid
 
             Instance = null;
         }
+        public override void OnAttachedToWindow()
+        {
+            Window.AddFlags(WindowManagerFlags.ShowWhenLocked |
+                            WindowManagerFlags.KeepScreenOn |
+                            WindowManagerFlags.DismissKeyguard |
+                            WindowManagerFlags.TurnScreenOn);
+        }
+
 
         private void StartAlarm()
         {

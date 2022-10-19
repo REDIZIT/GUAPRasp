@@ -1,10 +1,11 @@
-﻿using Xamarin.Forms;
+﻿using Android.Content;
+using Xamarin.Forms;
 
 namespace App1
 {
     public partial class App : Application
     {
-        public App()
+        public App(string arg)
         {
             InitializeComponent();
 
@@ -13,6 +14,7 @@ namespace App1
             SearchRequest homeSearch = new SearchRequest(SearchRequest.Type.Group, "М251");
             CacheManager.PullChanges(homeSearch);
 
+            Log.ShowAlert("Arg = " + arg);
             MainPage = new NavigationPage(new TimeTableView(homeSearch));
         }
 
