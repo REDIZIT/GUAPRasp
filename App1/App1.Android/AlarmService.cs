@@ -6,6 +6,7 @@ using App1;
 using App1.Droid;
 using System;
 using Xamarin.Forms;
+using AlarmManager = App1.AlarmManager;
 
 namespace InApp
 {
@@ -14,10 +15,7 @@ namespace InApp
     {
         public static AlarmService Instance { get; private set; }
 
-        public bool IsTriggered { get; private set; }
-
         private Notification notification;
-        private DateTime targetDate;
 
         public override void OnCreate()
         {
@@ -48,18 +46,15 @@ namespace InApp
             StartForeground(1, notification);
 
 
-            targetDate = DateTime.Now.AddSeconds(15);
-
-            Device.StartTimer(new TimeSpan(0, 0, 1), () =>
+            Device.StartTimer(new TimeSpan(0, 0, 5), () =>
             {
-                if (DateTime.Now >= targetDate)
+                if (AlarmManager.Instance.TryGetTriggeredAlarm(out AlarmRecord alarm))
                 {
-                    IsTriggered = true;
+                    alarm.state = AlarmRecord.State.WaitingUserResponse;
 
                     var intent = new Intent(this, typeof(MainActivity));
-                    intent = intent.SetFlags(ActivityFlags.NewTask).PutExtra("TimerExecutor", targetDate.ToString());
+                    intent = intent.SetFlags(ActivityFlags.NewTask).PutExtra("TimerExecutor", alarm.nextRealarmTime.ToString());
                     StartActivity(intent);
-                    return false;
                 }
                 return true;
             });
@@ -67,6 +62,8 @@ namespace InApp
         public override void OnDestroy()
         {
             base.OnDestroy();
+
+            Log.ShowAlert("Destroy service");
 
             Instance = null;
         }

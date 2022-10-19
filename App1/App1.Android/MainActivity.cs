@@ -22,7 +22,7 @@ namespace App1.Droid
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             Forms.Init(this, savedInstanceState);
-            LoadApplication(new App(Intent.GetStringExtra("TimerExecutor")));
+            LoadApplication(new App(Intent.GetStringExtra("TimerExecutor"), this));
 
             StartAlarm();
         }

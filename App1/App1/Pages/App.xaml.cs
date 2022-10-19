@@ -1,11 +1,12 @@
-﻿using Android.Content;
+﻿using Android.App;
+using App1.Pages;
 using Xamarin.Forms;
 
 namespace App1
 {
-    public partial class App : Application
+    public partial class App : Xamarin.Forms.Application
     {
-        public App(string arg)
+        public App(string arg, Activity activity)
         {
             InitializeComponent();
 
@@ -14,20 +15,16 @@ namespace App1
             SearchRequest homeSearch = new SearchRequest(SearchRequest.Type.Group, "М251");
             CacheManager.PullChanges(homeSearch);
 
-            Log.ShowAlert("Arg = " + arg);
-            MainPage = new NavigationPage(new TimeTableView(homeSearch));
-        }
+            AlarmManager.Init();
 
-        protected override void OnStart()
-        {
-        }
-
-        protected override void OnSleep()
-        {
-        }
-
-        protected override void OnResume()
-        {
+            if (string.IsNullOrEmpty(arg))
+            {
+                MainPage = new NavigationPage(new TimeTableView(homeSearch));
+            }
+            else
+            {
+                MainPage = new TimerPage(arg, activity);
+            }
         }
     }
 }

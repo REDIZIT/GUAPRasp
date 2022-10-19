@@ -4,9 +4,11 @@
              x:Class="App1.Pages.TimerPage">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
+            <Label x:Name="label" Text="Welcome to Xamarin.Forms!"
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
+            <Button Text="Skip" Clicked="SkipClicked"/>
+            <Button Text="Disarm" Clicked="DisarmClicked"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
