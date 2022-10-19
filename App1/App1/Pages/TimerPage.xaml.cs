@@ -26,7 +26,7 @@ namespace App1.Pages
         {
             InitializeComponent();
 
-            this.alarm = AlarmManager.Instance.GetTimerByID(alarm);
+            this.alarm = AlarmManager.Instance.TryGetTimerByID(alarm);
             this.activity = activity;
 
             var assembly = Assembly.GetExecutingAssembly();
@@ -39,16 +39,18 @@ namespace App1.Pages
             }
 
             WordChars = new();
+            int i = 0;
             foreach (var item in word)
             {
-                WordChars.Add(new Letter(default, 32));
+                WordChars.Add(new Letter(default, 32, i));
             }
 
 
             Chars = new();
+            i = 0;
             foreach (var item in word.ToCharArray().Distinct().Shuffle())
             {
-                Chars.Add(new Letter(item, 42));
+                Chars.Add(new Letter(item, 42, i));
             }
 
             BindingContext = this;
@@ -110,16 +112,21 @@ namespace App1.Pages
         }
         public float Scale { get; set; }
         public float FontSize { get; set; }
+        public int Column { get; set; }
+        public int Row { get; set; }
 
         private char _char;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public Letter(char letter, float scale)
+        public Letter(char letter, float scale, int index)
         {
             Char = letter;
             Scale = scale;
             FontSize = Scale * 0.6f;
+
+            Column = index % 6;
+            Row = index / 6;
         }
     }
 }

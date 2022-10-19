@@ -24,7 +24,7 @@ namespace App1.Droid
             Forms.Init(this, savedInstanceState);
             LoadApplication(new App(Intent.GetIntExtra("TimerExecutor", -1), this));
 
-            //StartAlarm();
+            StartAlarm();
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {

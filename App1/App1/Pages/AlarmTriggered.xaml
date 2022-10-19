@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="App1.Pages.AlarmTriggered">
+    <ContentPage.Content>
+        <StackLayout Padding="0, 100" BackgroundColor="Black">
+            <StackLayout.GestureRecognizers>
+                <PanGestureRecognizer PanUpdated="PanGestureUpdated"/>
+            </StackLayout.GestureRecognizers>
+            <Label VerticalOptions="StartAndExpand" TextColor="White" FontSize="92" Text="22:23" HorizontalOptions="CenterAndExpand" HeightRequest="100"/>
+            <AbsoluteLayout  VerticalOptions="EndAndExpand" HeightRequest="200">
+                <BoxView x:Name="splitter" AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds="0.5, 0.5" HorizontalOptions="Center" HeightRequest="2"/>
+                <Label AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds="0.5, 0" Text="Отложить" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" FontSize="Medium"/>
+                <Label x:Name="disarmText" AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds="0.5, 1" Text="Отключить" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" FontSize="Medium"/>
+                <Label AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds="0.5, 0.5" Text="&lt; Swipe >" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" FontSize="Small"/>
+            </AbsoluteLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

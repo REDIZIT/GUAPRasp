@@ -24,9 +24,9 @@ namespace App1
             record = alarms.FirstOrDefault(a => a.state == AlarmRecord.State.Armed && DateTime.Now >= a.nextRealarmTime);
             return record != null;
         }
-        public AlarmRecord GetTimerByID(int id)
+        public AlarmRecord TryGetTimerByID(int id)
         {
-            return alarms.First(a => a.id == id);
+            return alarms.FirstOrDefault(a => a.id == id);
         }
     }
 }

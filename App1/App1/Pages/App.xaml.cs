@@ -28,7 +28,7 @@ namespace App1
             //    MainPage = new TimerPage(arg, activity);
             //}
 
-            MainPage = new TimerPage(0, activity);
+            MainPage = new AlarmTriggered(arg, activity);
         }
     }
 }

@@ -5,7 +5,7 @@
 
     <ContentPage.Resources>
         <DataTemplate x:Key="charTemplate">
-            <Frame BackgroundColor="Gray" HeightRequest="{Binding Scale}" WidthRequest="{Binding Scale}" VerticalOptions="Center" CornerRadius="12" Padding="2" BindingContext="{Binding}">
+            <Frame BackgroundColor="Gray" FlexLayout.Basis="{Binding Scale}" FlexLayout.AlignSelf="Stretch" HeightRequest="{Binding Scale}" WidthRequest="{Binding Scale}" VerticalOptions="Center" CornerRadius="12" Padding="1" BindingContext="{Binding}">
                 <Frame.GestureRecognizers>
                     <TapGestureRecognizer Tapped="CharClicked"/>
                 </Frame.GestureRecognizers>
@@ -21,15 +21,15 @@
             <StackLayout Spacing="12">
                 <Button Text="Skip" Clicked="SkipClicked"/>
                 <Button Text="Disarm" Clicked="DisarmClicked"/>
-                <StackLayout Orientation="Horizontal" HorizontalOptions="Center" BindableLayout.ItemsSource="{Binding WordChars}" BindableLayout.ItemTemplate="{StaticResource charTemplate}" VerticalOptions="Center">
+                <FlexLayout Padding="123" Wrap="Wrap" JustifyContent="Center" HorizontalOptions="Center" BindableLayout.ItemsSource="{Binding WordChars}" BindableLayout.ItemTemplate="{StaticResource charTemplate}" VerticalOptions="Center">
 
-                </StackLayout>
+                </FlexLayout>
                 <BoxView BackgroundColor="#666" HeightRequest="1" ScaleX="0.75"/>
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Center" BindableLayout.ItemsSource="{Binding Chars}" BindableLayout.ItemTemplate="{StaticResource charTemplate}" VerticalOptions="Center">
 
                 </StackLayout>
             </StackLayout>
-           
+
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
