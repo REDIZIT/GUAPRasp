@@ -25,5 +25,9 @@
             string valueID = type == Type.Group ? Settings.Model.groupIdByName[valueName] : Settings.Model.teacherIdByName[valueName];
             return (type == Type.Group ? GROUP_URL : TEACHER_URL) + valueID;
         }
+        public static SearchRequest GetHome()
+        {
+            return new SearchRequest(Type.Group, "М251");
+        }
     }
 }

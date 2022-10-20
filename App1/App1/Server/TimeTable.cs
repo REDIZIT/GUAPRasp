@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using App1.Extensions;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace App1
@@ -28,7 +31,34 @@ namespace App1
             }
         }
 
-        
+
+        public static DateTime GetClosestDate(Week selectedWeek, Day selectedDay)
+        {
+            Week currentWeek = GetCurrentWeek();
+
+            int dayOfWeekDelta = (int)selectedDay - (int)GetCurrentDay();
+            int weekDaysDelta = currentWeek == selectedWeek ? 0 : 7;
+            int totalDelta = dayOfWeekDelta + weekDaysDelta;
+            return DateTime.Today.AddDays(totalDelta);
+        }
+        public static int GetWeekOfMonth(DateTime date)
+        {
+            DateTime beginningOfMonth = new DateTime(date.Year, date.Month, 1);
+
+            while (date.Date.AddDays(1).DayOfWeek != CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek)
+                date = date.AddDays(1);
+
+            return (int)Math.Truncate((double)date.Subtract(beginningOfMonth).TotalDays / 7f) + 1;
+        }
+        public static Week GetCurrentWeek()
+        {
+            int weekNo = GetWeekOfMonth(DateTime.Today);
+            return weekNo % 2 == 0 ? Week.Bottom : Week.Top;
+        }
+        public static Day GetCurrentDay()
+        {
+            return CultureInfo.CurrentCulture.Calendar.GetDayOfWeek(DateTime.Now).Normalize();
+        }
 
         public IEnumerable<ITimeTableRecord> GetRecords(Week week, Day day)
         {

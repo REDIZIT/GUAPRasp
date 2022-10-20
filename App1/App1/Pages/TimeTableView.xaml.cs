@@ -1,9 +1,7 @@
-﻿using App1.Extensions;
-using App1.Pages;
+﻿using App1.Pages;
 using App1.TableItems;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -33,8 +31,8 @@ namespace App1
                 Title = "Расписание " + search.valueName;
             }
 
-            selectedWeek = GetCurrentWeek();
-            selectedDay = GetCurrentDay();
+            selectedWeek = TimeTable.GetCurrentWeek();
+            selectedDay = TimeTable.GetCurrentDay();
 
             RefreshToggle();
 
@@ -165,19 +163,17 @@ namespace App1
         }
         private void RefreshToggle()
         {
-            string postfix = GetCurrentWeek() == selectedWeek ? ", текущая" : ", следующая";
+            string postfix = TimeTable.GetCurrentWeek() == selectedWeek ? ", текущая" : ", следующая";
 
             weekButton.Text = (selectedWeek == Week.Bottom ? "Нижняя неделя" : "Верхняя неделя") + postfix;
             weekButton.TextColor = selectedWeek == Week.Bottom ? Color.FromHex("#1e90ff") : Color.FromHex("#ff7f50");
         }
         private void RefreshDate()
         {
-            Week currentWeek = GetCurrentWeek();
+            Week currentWeek = TimeTable.GetCurrentWeek();
+            int dayOfWeekDelta = (int)selectedDay - (int)TimeTable.GetCurrentDay();
 
-            int dayOfWeekDelta = (int)selectedDay - (int)GetCurrentDay();
-            int weekDaysDelta = currentWeek == selectedWeek ? 0 : 7;
-            int totalDelta = dayOfWeekDelta + weekDaysDelta;
-            DateTime selectedDate = DateTime.Now.AddDays(totalDelta);
+            DateTime selectedDate = TimeTable.GetClosestDate(selectedWeek, selectedDay);
 
             dateLabel.Text = selectedDay == Day.Sunday ? "Вне сетки расписания" : selectedDate.ToString("m");
 
@@ -189,24 +185,7 @@ namespace App1
                 else if (dayOfWeekDelta == 1) dateLabel.Text += ", Завтра";
             }
         }
-        private int GetWeekOfMonth(DateTime date)
-        {
-            DateTime beginningOfMonth = new DateTime(date.Year, date.Month, 1);
-
-            while (date.Date.AddDays(1).DayOfWeek != CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek)
-                date = date.AddDays(1);
-
-            return (int)Math.Truncate((double)date.Subtract(beginningOfMonth).TotalDays / 7f) + 1;
-        }
-        private Week GetCurrentWeek()
-        {
-            int weekNo = GetWeekOfMonth(DateTime.Today);
-            return weekNo % 2 == 0 ? Week.Bottom : Week.Top;
-        }
-        private Day GetCurrentDay()
-        {
-            return CultureInfo.CurrentCulture.Calendar.GetDayOfWeek(DateTime.Now).Normalize();
-        }
+        
 
 
         private void DayButtonClicked(object sender, EventArgs e)

@@ -8,27 +8,23 @@ namespace App1
     {
         public App(int arg, Activity activity)
         {
-            //InitializeComponent();
+            InitializeComponent();
 
+            Settings.Load();
 
-
-            //Settings.Load();
-
-            //SearchRequest homeSearch = new SearchRequest(SearchRequest.Type.Group, "М251");
-            //CacheManager.PullChanges(homeSearch);
+            SearchRequest homeSearch = SearchRequest.GetHome();
+            CacheManager.PullChanges(homeSearch);
 
             AlarmManager.Init();
 
-            //if (arg == -1)
-            //{
-            //    MainPage = new NavigationPage(new TimeTableView(homeSearch));
-            //}
-            //else
-            //{
-            //    MainPage = new TimerPage(arg, activity);
-            //}
-
-            MainPage = new AlarmTriggered(arg, activity);
+            if (arg == -1)
+            {
+                MainPage = new NavigationPage(new TimeTableView(homeSearch));
+            }
+            else
+            {
+                MainPage = new AlarmTriggered(arg, activity);
+            }
         }
     }
 }

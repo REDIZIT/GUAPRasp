@@ -42,5 +42,18 @@ namespace App1.Extensions
 
             return b.ToString();
         }
+
+        public static Week Next(this Week week)
+        {
+            if (week == Week.Top) return Week.Bottom;
+            else return Week.Top;
+        }
+        public static Day Next(this Day day)
+        {
+            int i = (int)day + 1;
+            if (i > 7) i -= 7;
+
+            return (Day)i;
+        }
     }
 }

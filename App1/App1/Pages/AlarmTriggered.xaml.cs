@@ -65,7 +65,7 @@ namespace App1.Pages
         {
             Android.Net.Uri soundUri = RingtoneManager.GetDefaultUri(RingtoneType.Alarm);
             r = RingtoneManager.GetRingtone(Android.App.Application.Context, soundUri);
-            r.Play(volume);
+            r.Play();
         }
 
         private void PanGestureUpdated(object sender, PanUpdatedEventArgs e)
