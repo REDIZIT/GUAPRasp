@@ -73,16 +73,17 @@ namespace App1
             Day currentDay = GetCurrentDay(startDate);
             int daysEnumed = 0;
 
-            while(daysEnumed < 14)
+            while(daysEnumed < 12)
             {
-                while (currentDay != Day.Sunday)
-                {
-                    yield return new KeyValuePair<Week, Day>(currentWeek, currentDay);
-                    currentDay = currentDay.Next();
-                    daysEnumed++;
-                }
-                currentWeek = currentWeek.Next();
+                yield return new KeyValuePair<Week, Day>(currentWeek, currentDay);
                 currentDay = currentDay.Next();
+                daysEnumed++;
+
+                if (currentDay == Day.Sunday)
+                {
+                    currentWeek = currentWeek.Next();
+                    currentDay = currentDay.Next();
+                }
             }
         }
 
