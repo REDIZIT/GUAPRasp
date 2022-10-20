@@ -34,7 +34,7 @@ namespace App1
 
         public static DateTime GetClosestDate(Week selectedWeek, Day selectedDay)
         {
-            Week currentWeek = GetCurrentWeek();
+            Week currentWeek = GetCurrentWeek(DateTime.Today);
 
             int dayOfWeekDelta = (int)selectedDay - (int)GetCurrentDay();
             int weekDaysDelta = currentWeek == selectedWeek ? 0 : 7;
@@ -52,12 +52,38 @@ namespace App1
         }
         public static Week GetCurrentWeek()
         {
-            int weekNo = GetWeekOfMonth(DateTime.Today);
+            return GetCurrentWeek(DateTime.Today);
+        }
+        public static Week GetCurrentWeek(DateTime today)
+        {
+            int weekNo = GetWeekOfMonth(today);
             return weekNo % 2 == 0 ? Week.Bottom : Week.Top;
         }
         public static Day GetCurrentDay()
         {
-            return CultureInfo.CurrentCulture.Calendar.GetDayOfWeek(DateTime.Now).Normalize();
+            return GetCurrentDay(DateTime.Today);
+        }
+        public static Day GetCurrentDay(DateTime today)
+        {
+            return CultureInfo.CurrentCulture.Calendar.GetDayOfWeek(today).Normalize();
+        }
+        public static IEnumerable<KeyValuePair<Week, Day>> EnumerateTwoWeeks(DateTime startDate)
+        {
+            Week currentWeek = GetCurrentWeek(startDate);
+            Day currentDay = GetCurrentDay(startDate);
+            int daysEnumed = 0;
+
+            while(daysEnumed < 14)
+            {
+                while (currentDay != Day.Sunday)
+                {
+                    yield return new KeyValuePair<Week, Day>(currentWeek, currentDay);
+                    currentDay = currentDay.Next();
+                    daysEnumed++;
+                }
+                currentWeek = currentWeek.Next();
+                currentDay = currentDay.Next();
+            }
         }
 
         public IEnumerable<ITimeTableRecord> GetRecords(Week week, Day day)
